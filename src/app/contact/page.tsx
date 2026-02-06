@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { siteConfig } from "@/config/site";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
@@ -18,25 +18,18 @@ export const metadata: Metadata = {
 
 const contactMethods = [
   {
-    icon: Phone,
-    title: "Telephone",
-    detail: siteConfig.phone.display,
-    href: `tel:${siteConfig.phone.primary}`,
-    description: "Du lundi au samedi",
-  },
-  {
-    icon: MessageCircle,
-    title: "WhatsApp",
-    detail: siteConfig.phone.display,
-    href: `https://wa.me/${siteConfig.whatsapp}`,
-    description: "Reponse rapide",
+    icon: Mail,
+    title: "Email",
+    detail: siteConfig.email,
+    href: `mailto:${siteConfig.email}`,
+    description: "Réponse sous 24h",
   },
   {
     icon: MapPin,
     title: "Zone d'intervention",
     detail: "Strasbourg et sa région",
     href: null,
-    description: "Séances à domicile uniquement",
+    description: "Séances au cabinet et à distance — gratuites",
   },
 ];
 
