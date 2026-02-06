@@ -2,29 +2,19 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Loader2, Minus, Plus } from "lucide-react";
+import { Mail, Minus, Plus } from "lucide-react";
+
+const EMAIL = "centre.ashifa67@gmail.com";
 
 export function PreOrderForm() {
   const [quantity, setQuantity] = useState(1);
-  const [loading, setLoading] = useState(false);
 
-  const handleCheckout = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch("/api/stripe/create-checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ quantity }),
-      });
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      }
-    } catch (error) {
-      console.error("Checkout error:", error);
-    } finally {
-      setLoading(false);
-    }
+  const handleOrder = () => {
+    const subject = encodeURIComponent("Commande du livre — La Roqya à la lumière du Tawhid");
+    const body = encodeURIComponent(
+      `Assalamu alaykum,\n\nJe souhaite commander ${quantity} exemplaire${quantity > 1 ? "s" : ""} du livre « La Roqya à la lumière du Tawhid ».\n\nMerci de me communiquer les modalités de paiement et de livraison.\n\nCordialement,\n`
+    );
+    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -53,25 +43,18 @@ export function PreOrderForm() {
         </div>
       </div>
 
-      {/* Checkout button */}
+      {/* Order button */}
       <Button
-        onClick={handleCheckout}
-        disabled={loading}
+        onClick={handleOrder}
         className="w-full h-12 text-base"
         size="lg"
       >
-        {loading ? (
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <ShoppingCart className="mr-2 h-4 w-4" />
-        )}
-        {loading ? "Redirection..." : "Pré-commander maintenant"}
+        <Mail className="mr-2 h-4 w-4" />
+        Commander par email
       </Button>
 
-      {/* Security badges */}
-      <div className="mt-4 flex items-center justify-center gap-4 text-xs text-muted-foreground">
-        <span>Paiement sécurisé</span>
-        <span>|</span>
+      {/* Info */}
+      <div className="mt-4 flex items-center justify-center text-xs text-muted-foreground">
         <span>Livraison en France</span>
       </div>
     </div>

@@ -20,6 +20,7 @@ const services = [
       "Accompagnement par les mots du Saint Coran. Combattre le mal-être d'origine occulte : sihr, mauvais oeil, mass, waswas, hasad.",
     href: "/roqya-thérapie",
     color: "bg-primary/10 text-primary",
+    free: true,
   },
   {
     icon: Brain,
@@ -28,6 +29,7 @@ const services = [
       "Reconnaissance et modification des pensées et comportements problématiques. Une approche scientifique et éprouvée pour retrouver l'équilibre.",
     href: "/thérapie-cognitive",
     color: "bg-blue-50 text-blue-600",
+    free: true,
   },
 ];
 
@@ -57,7 +59,14 @@ export function ServicesOverview() {
                     >
                       <service.icon className="h-6 w-6" />
                     </div>
-                    <CardTitle className="text-xl">{service.title}</CardTitle>
+                    <div className="flex items-center gap-2">
+                      <CardTitle className="text-xl">{service.title}</CardTitle>
+                      {service.free && (
+                        <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-600/20">
+                          Gratuit
+                        </span>
+                      )}
+                    </div>
                   </CardHeader>
                   <CardContent>
                     <CardDescription className="text-sm leading-relaxed">

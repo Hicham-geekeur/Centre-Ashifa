@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { CalendarDays, Home, Phone, Clock, MapPin } from "lucide-react";
+import { CalendarDays, Home, Clock, MapPin, Heart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { siteConfig } from "@/config/site";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
@@ -18,6 +18,11 @@ export const metadata: Metadata = {
 
 const infos = [
   {
+    icon: Heart,
+    title: "Séances gratuites",
+    description: "Toutes nos séances sont entièrement gratuites.",
+  },
+  {
     icon: Home,
     title: "Au cabinet et à distance",
     description: "Séances au cabinet ou à distance selon votre préférence.",
@@ -31,11 +36,6 @@ const infos = [
     icon: Clock,
     title: "Durée de la séance",
     description: "Entre 45 minutes et 1h30 selon le type de séance.",
-  },
-  {
-    icon: Phone,
-    title: "Contact direct",
-    description: siteConfig.phone.display,
   },
 ];
 
@@ -57,7 +57,7 @@ export default function RendezVousPage() {
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
               Choisissez le type de séance et le créneau qui vous convient.
-              Toutes nos séances ont repris au cabinet et à distance.
+              Toutes nos séances sont <span className="font-semibold text-primary">entièrement gratuites</span>, au cabinet et à distance.
             </p>
           </AnimatedSection>
         </div>
@@ -93,12 +93,12 @@ export default function RendezVousPage() {
             <CalendlyEmbed />
           </div>
           <p className="mt-4 text-center text-sm text-muted-foreground">
-            Vous pouvez aussi nous contacter directement au{" "}
+            Vous pouvez aussi nous contacter par email :{" "}
             <a
-              href={`tel:${siteConfig.phone.primary}`}
+              href={`mailto:${siteConfig.email}`}
               className="font-medium text-primary hover:underline"
             >
-              {siteConfig.phone.display}
+              {siteConfig.email}
             </a>
           </p>
         </div>

@@ -59,7 +59,7 @@ const faqItems = [
   {
     question: "Où se déroulent les séances ?",
     answer:
-      "Toutes nos séances ont repris au cabinet et à distance. Contactez-nous pour plus d'informations.",
+      "Nos séances gratuites se déroulent au cabinet et à distance. Contactez-nous pour plus d'informations.",
   },
   {
     question: "La Roqya est-elle compatible avec un traitement medical ?",
@@ -67,9 +67,9 @@ const faqItems = [
       "La Roqya est une approche complémentaire. Elle né se substitue en aucun cas a un suivi medical. Nous encourageons nos consultants a maintenir leur suivi medical en parallele.",
   },
   {
-    question: "Quel est le tarif d'une séance ?",
+    question: "Les séances sont-elles payantes ?",
     answer:
-      "Les tarifs varient selon le type de séance et la situation du patient. Contactez-nous pour obtenir plus d'informations sur nos tarifs.",
+      "Non, toutes nos séances de Roqya-thérapie sont entièrement gratuites. Nous estimons que l'accompagnement spirituel par le Coran ne doit pas être monnayé. Notre seul objectif est votre bien-être.",
   },
 ];
 

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { footerNavItems } from "@/config/navigation";
 import { Separator } from "@/components/ui/separator";
@@ -25,11 +25,11 @@ export function Footer() {
             </p>
             <div className="space-y-2 text-sm">
               <a
-                href={`tel:${siteConfig.phone.primary}`}
+                href={`mailto:${siteConfig.email}`}
                 className="flex items-center gap-2 hover:text-white transition-colors"
               >
-                <Phone className="h-4 w-4 text-primary" />
-                {siteConfig.phone.display}
+                <Mail className="h-4 w-4 text-primary" />
+                {siteConfig.email}
               </a>
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4 text-primary" />
@@ -112,7 +112,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="flex flex-col items-center justify-between gap-4 text-xs text-white/40 sm:flex-row">
           <p>&copy; {new Date().getFullYear()} Centre Ashifa. Tous droits reserves.</p>
-          <p>Séances au cabinet et à distance - Strasbourg et sa région</p>
+          <p>Séances gratuites au cabinet et à distance - Strasbourg et sa région</p>
         </div>
       </div>
     </footer>

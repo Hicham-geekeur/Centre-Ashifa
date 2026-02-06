@@ -3,13 +3,13 @@ export const siteConfig = {
   url: "https://centre-ashifa.fr",
   description:
     "Centre Ashifa - Séances de Roqya-thérapie et thérapie cognitive comportementale (TCC) à Strasbourg et sa région. Praticien certifié Larbi DJEDADOUA.",
+  email: "centre.ashifa67@gmail.com",
   phone: {
     primary: "+33768848483",
     display: "07 68 84 84 83",
     secondary: "+33753613611",
     secondaryDisplay: "07 53 61 36 11",
   },
-  whatsapp: "33745919020",
   location: {
     city: "Strasbourg",
     région: "Bas-Rhin, Grand Est",

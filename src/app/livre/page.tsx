@@ -1,37 +1,42 @@
 import type { Metadata } from "next";
-import { BookOpen, Star, CheckCircle } from "lucide-react";
+import Link from "next/link";
+import { Star, CheckCircle, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { PreOrderForm } from "@/components/book/PreOrderForm";
-import { siteConfig } from "@/config/site";
+import { BookMockup3D, BackCoverMockup } from "@/components/book/BookMockup";
 
 export const metadata: Metadata = {
-  title: "Le Livre - Pré-commande",
+  title: "Le Livre — La Roqya à la lumière du Tawhid",
   description:
-    "Pré-commandez le nouveau livre de Larbi DJEDADOUA sur la Roqya-thérapie. Un ouvrage complet sur l'accompagnement par les mots du Saint Coran.",
+    "Commandez le livre « La Roqya à la lumière du Tawhid » de Larbi Al-Khattab. Un traité complet, authentique et accessible sur la Roqya, fondé sur le Coran et la Sunna.",
   openGraph: {
-    title: "Le Livre | Centre Ashifa",
+    title: "La Roqya à la lumière du Tawhid | Centre Ashifa",
     description:
-      "Pré-commandez le nouveau livre sur la Roqya-thérapie par Larbi DJEDADOUA.",
+      "Le nouveau livre de Larbi Al-Khattab — Un ouvrage éclairant qui redonne à la Roqya sa véritable place.",
   },
 };
 
 const tableOfContents = [
-  "Introduction à la Roqya-thérapie",
-  "Les fondements coraniques de l'accompagnement spirituel",
-  "Comprendre le sihr, le mauvais oeil et le mass",
+  "Introduction — Des incantations préislamiques à la purification prophétique",
+  "Les fondements spirituels : Tawhid, Coran et Sunna",
+  "Comprendre le sihr, le mauvais œil, le mass et le waswas",
   "Les signes et symptômes du mal occulte",
-  "Les méthodes de diagnostic",
-  "Le protocole de Roqya",
+  "Les méthodes légiférées, approuvées par les savants",
+  "Les erreurs à éviter et les pratiques occultes qui n'ont rien d'islamique",
+  "Reconnaître un praticien fiable et se protéger des charlatans",
+  "Demander la Roqya est-il déconseillé ? Réponse claire et apaisante",
   "La protection au quotidien",
   "Témoignages et cas pratiques",
 ];
 
 const features = [
-  "Basé sur des années d'expérience de terrain",
-  "Approche conforme au Coran et à la Sunna",
-  "Conseils pratiques et accessibles",
-  "Témoignages réels d'accompagnement",
+  "Les bases spirituelles de la Roqya, expliquées simplement",
+  "Les erreurs à éviter et les pratiques occultes à fuir",
+  "Les méthodes légiférées, approuvées par les savants",
+  "Les critères pour reconnaître un praticien fiable",
+  "Une réponse claire à la question : demander la Roqya est-il déconseillé ?",
 ];
 
 export default function LivrePage() {
@@ -41,28 +46,11 @@ export default function LivrePage() {
       <section className="relative pt-32 pb-16 sm:pt-40 sm:pb-20 bg-gradient-to-b from-accent to-background overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-gold/5" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Book mockup */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Single 3D Book mockup */}
             <AnimatedSection>
               <div className="flex justify-center">
-                <div className="relative w-64 sm:w-80">
-                  <div className="absolute -bottom-4 left-4 right-4 h-8 rounded-full bg-black/10 blur-xl" />
-                  <div className="relative rounded-lg bg-gradient-to-br from-primary to-primary/80 p-10 shadow-2xl aspect-[3/4]">
-                    <div className="flex h-full flex-col items-center justify-center text-center text-white">
-                      <div className="mb-6 h-px w-20 bg-gold" />
-                      <BookOpen className="mb-6 h-12 w-12 text-gold" />
-                      <h2 className="text-2xl font-bold leading-tight">
-                        La Roqya
-                      </h2>
-                      <p className="mt-1 text-white/70">Thérapie</p>
-                      <div className="mt-6 h-px w-20 bg-gold" />
-                      <p className="mt-6 text-sm text-white/50">
-                        Larbi DJEDADOUA
-                      </p>
-                    </div>
-                    <div className="absolute left-0 top-0 bottom-0 w-4 rounded-l-lg bg-primary/60" />
-                  </div>
-                </div>
+                <BookMockup3D className="w-60 sm:w-72 md:w-80" />
               </div>
             </AnimatedSection>
 
@@ -75,54 +63,99 @@ export default function LivrePage() {
                     Pré-commande
                   </Badge>
                   <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-                    La Roqya Thérapie
+                    La Roqya à la lumière du Tawhid
                   </h1>
-                  <p className="mt-2 text-lg text-muted-foreground">
-                    par {siteConfig.practitioner.name}
+                  <p className="mt-2 text-lg text-gold font-medium">
+                    Traité sur la Roqya
+                  </p>
+                  <p className="mt-1 text-muted-foreground">
+                    par Larbi Al-Khattab
                   </p>
                 </div>
 
                 <p className="text-muted-foreground leading-relaxed">
-                  Découvrez le fruit de plusieurs années d&apos;expérience et de
-                  recherche dans le domaine de la Roqya-thérapie. Cet ouvrage
-                  complet vous guidera dans la compréhension des maux occultes
-                  et les méthodes d&apos;accompagnement par les mots du Saint Coran.
+                  Aujourd&apos;hui largement répandue mais souvent déformée, la
+                  Roqya suscite curiosité, questions… et parfois inquiétude. Ce
+                  livre offre enfin une compréhension claire, authentique et
+                  accessible de cette pratique spirituelle essentielle de
+                  l&apos;Islam. En plongeant dans son histoire — des incantations
+                  préislamiques jusqu&apos;à la purification opérée par le
+                  Prophète ﷺ — l&apos;ouvrage dévoile comment la Roqya est
+                  devenue un acte d&apos;adoration pur, fondé sur le Coran, la
+                  Sunna et la confiance totale en Allah.
                 </p>
 
                 <ul className="space-y-2">
                   {features.map((feature) => (
                     <li
                       key={feature}
-                      className="flex items-center gap-2 text-sm"
+                      className="flex items-start gap-2 text-sm"
                     >
-                      <CheckCircle className="h-4 w-4 text-primary shrink-0" />
+                      <CheckCircle className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                       {feature}
                     </li>
                   ))}
                 </ul>
 
                 <PreOrderForm />
+
+                <div className="mt-4 text-center">
+                  <Button asChild variant="outline" className="w-full h-11">
+                    <Link href="/rendez-vous">
+                      Prendre rendez-vous gratuitement
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </AnimatedSection>
           </div>
         </div>
       </section>
 
-      {/* Table of contents */}
+      {/* Accroche / Why this book */}
+      <section className="py-20 bg-accent/30">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <AnimatedSection>
+            <div className="mx-auto max-w-3xl text-center">
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                Un chemin vers la guérison et la sérénité intérieure
+              </h2>
+              <p className="mt-6 text-muted-foreground leading-relaxed">
+                Que vous soyez débutant, curieux, ou en quête de repères
+                fiables, ce livre est un guide indispensable pour comprendre
+                comment la Roqya apaise, protège et guérit — non par
+                superstition, mais par un retour sincère vers le Créateur.
+              </p>
+              <p className="mt-4 text-muted-foreground leading-relaxed">
+                Un ouvrage éclairant, moderne et profondément spirituel, qui
+                redonne à la Roqya sa véritable place.
+              </p>
+            </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* Table of contents + Back cover mockup */}
       <section className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            {/* Back cover — left side */}
             <AnimatedSection>
+              <div className="flex justify-center lg:sticky lg:top-32">
+                <BackCoverMockup className="w-64 sm:w-72 md:w-80 lg:w-[22rem]" />
+              </div>
+            </AnimatedSection>
+
+            {/* Sommaire — right side */}
+            <AnimatedSection delay={0.2}>
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
                 Sommaire
               </h2>
-              <p className="mt-4 text-muted-foreground">
-                Un guide complet et structuré pour comprendre et pratiquer la
-                Roqya-thérapie selon les préceptes de l&apos;Islam.
+              <p className="mt-4 mb-8 text-muted-foreground">
+                Un guide complet et structuré, des incantations préislamiques
+                jusqu&apos;aux méthodes de protection au quotidien.
               </p>
-            </AnimatedSection>
-
-            <AnimatedSection delay={0.2}>
               <ol className="space-y-3">
                 {tableOfContents.map((chapter, index) => (
                   <li
@@ -150,12 +183,13 @@ export default function LivrePage() {
                 À propos de l&apos;auteur
               </h2>
               <p className="mt-6 text-muted-foreground leading-relaxed">
-                {siteConfig.practitioner.name} est un praticien reconnu et
-                certifié en thérapie cognitive et comportementale. Détenteur
-                d&apos;une Ijaza dans les 10 lectures du Saint Coran, il exerce
-                la Roqya-thérapie depuis plusieurs années à Strasbourg et sa
+                Larbi Al-Khattab est un praticien reconnu et certifié en
+                thérapie cognitive et comportementale. Détenteur d&apos;une Ijaza
+                dans les 10 lectures du Saint Coran, il exerce la
+                Roqya-thérapie depuis plusieurs années à Strasbourg et sa
                 région. Ce livre est le fruit de son expérience de terrain et de
-                sa volonté de transmettre un savoir authentique et accessible.
+                sa volonté de transmettre un savoir authentique et accessible à
+                tous.
               </p>
             </div>
           </AnimatedSection>

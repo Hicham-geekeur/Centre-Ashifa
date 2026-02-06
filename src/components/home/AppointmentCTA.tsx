@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Phone, ArrowRight } from "lucide-react";
+import { Mail, ArrowRight } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 
@@ -19,8 +19,8 @@ export function AppointmentCTA() {
                 Prêt à commencer votre parcours de bien-être ?
               </h2>
               <p className="mx-auto mt-4 max-w-xl text-lg text-white/80">
-                Toutes nos séances ont repris au cabinet et à distance.
-                Prenez rendez-vous des maintenant.
+                Toutes nos séances sont gratuites, au cabinet et à distance.
+                Prenez rendez-vous dès maintenant.
               </p>
               <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button
@@ -40,9 +40,9 @@ export function AppointmentCTA() {
                   variant="outline"
                   className="text-base px-8 h-12 border-white text-white bg-white/20 hover:bg-white/30 hover:text-white"
                 >
-                  <a href={`tel:${siteConfig.phone.primary}`}>
-                    <Phone className="mr-2 h-4 w-4" />
-                    {siteConfig.phone.display}
+                  <a href={`mailto:${siteConfig.email}`}>
+                    <Mail className="mr-2 h-4 w-4" />
+                    Nous contacter
                   </a>
                 </Button>
               </div>

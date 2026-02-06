@@ -3,6 +3,7 @@
 import { useRef, useCallback } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -11,7 +12,6 @@ import {
   MapPin,
   Award,
   ChevronDown,
-  Sparkles,
   BookOpen,
   Star,
 } from "lucide-react";
@@ -341,7 +341,7 @@ export function HeroSection() {
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
-              Séances disponibles - Cabinet et à distance
+              Séances gratuites - Cabinet et à distance
             </Badge>
           </motion.div>
 
@@ -402,15 +402,26 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 1.5, ease: "easeOut" }}
             className="mt-8"
           >
-            <Link href="/livre" className="group inline-flex items-center gap-3 rounded-full bg-gold/10 border border-gold/30 px-5 py-2.5 transition-all hover:bg-gold/20 hover:border-gold/50">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gold text-white">
-                <BookOpen className="h-4 w-4" />
-              </span>
-              <span className="text-sm font-medium text-foreground">
-                <Star className="inline h-3.5 w-3.5 text-gold mr-1" />
-                Nouveau livre en pré-commande
-              </span>
-              <ArrowRight className="h-4 w-4 text-gold transition-transform group-hover:translate-x-1" />
+            <Link href="/livre" className="group inline-flex items-center gap-4 rounded-2xl bg-gold/10 border border-gold/30 px-4 py-3 transition-all hover:bg-gold/20 hover:border-gold/50 hover:shadow-lg hover:shadow-gold/10">
+              <div className="relative h-14 w-10 shrink-0 overflow-hidden rounded-sm shadow-md ring-1 ring-black/10">
+                <Image
+                  src="/images/couverture-livre.png"
+                  alt="La Roqya à la lumière du Tawhid"
+                  width={80}
+                  height={118}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <div className="text-left">
+                <div className="flex items-center gap-1.5 text-xs text-gold font-semibold">
+                  <Star className="h-3 w-3" />
+                  Nouveau
+                </div>
+                <span className="text-sm font-medium text-foreground">
+                  La Roqya à la lumière du Tawhid
+                </span>
+              </div>
+              <ArrowRight className="h-4 w-4 text-gold shrink-0 transition-transform group-hover:translate-x-1" />
             </Link>
           </motion.div>
 

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Menu, X, Phone, ChevronDown } from "lucide-react";
+import { Menu, X, Mail, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { mainNavItems } from "@/config/navigation";
@@ -24,7 +24,7 @@ export function Header() {
     <>
       {/* Announcement banner */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-primary text-primary-foreground text-center text-sm py-2 px-4 font-medium">
-        Toutes nos séances ont repris au cabinet et à distance
+        Toutes nos séances sont gratuites — au cabinet et à distance
       </div>
 
       <header
@@ -98,11 +98,11 @@ export function Header() {
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-3">
             <a
-              href={`tel:${siteConfig.phone.primary}`}
+              href={`mailto:${siteConfig.email}`}
               className="flex items-center gap-2 text-sm font-medium text-foreground/70 hover:text-primary transition-colors"
             >
-              <Phone className="h-4 w-4" />
-              {siteConfig.phone.display}
+              <Mail className="h-4 w-4" />
+              {siteConfig.email}
             </a>
             <Button asChild>
               <Link href="/rendez-vous">Prendre rendez-vous</Link>
@@ -161,11 +161,11 @@ export function Header() {
               )}
               <div className="pt-4 border-t border-border space-y-3">
                 <a
-                  href={`tel:${siteConfig.phone.primary}`}
+                  href={`mailto:${siteConfig.email}`}
                   className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-foreground/70"
                 >
-                  <Phone className="h-4 w-4" />
-                  {siteConfig.phone.display}
+                  <Mail className="h-4 w-4" />
+                  {siteConfig.email}
                 </a>
                 <Button asChild className="w-full">
                   <Link href="/rendez-vous" onClick={() => setIsOpen(false)}>
