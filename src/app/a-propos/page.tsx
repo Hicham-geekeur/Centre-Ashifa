@@ -52,7 +52,7 @@ const values = [
   {
     title: "Professionnalisme",
     description:
-      "Chaque consultant bénéficie d'une approche structurée, alliant savoir et tradition prophetique.",
+      "Chaque consultant bénéficie d'une approche structurée, alliant savoir et tradition prophétique.",
   },
   {
     title: "Bienveillance",

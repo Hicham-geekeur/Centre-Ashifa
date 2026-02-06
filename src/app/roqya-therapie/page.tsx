@@ -49,7 +49,7 @@ const faqItems = [
   {
     question: "Qu'est-ce que la Roqya-thérapie ?",
     answer:
-      "La Roqya est une pratique islamique qui utilise la récitation du Saint Coran et des invocations prophetiques pour accompagner les personnes touchées par les maux d'origine occulte tels que le sihr (sorcellerie), le mauvais oeil, le mass (toucher des djinns), le waswas et le hasad (jalousie).",
+      "La Roqya est une pratique islamique qui utilise la récitation du Saint Coran et des invocations prophétiques pour accompagner les personnes touchées par les maux d'origine occulte tels que le sihr (sorcellerie), le mauvais oeil, le mass (toucher des djinns), le waswas et le hasad (jalousie).",
   },
   {
     question: "Combien de séances sont nécessaires ?",
@@ -116,7 +116,7 @@ export default function RoqyaThérapiePage() {
           <div className="mx-auto max-w-3xl text-center">
             <AnimatedSection>
               <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                Une approche ancree dans la tradition prophetique
+                Une approche ancree dans la tradition prophétique
               </h2>
               <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
                 L&apos;institut As-Shifa a pour role d&apos;exercer la Roqya et

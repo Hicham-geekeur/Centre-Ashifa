@@ -21,7 +21,7 @@ export function ServiceFAQ({ items }: ServiceFAQProps) {
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           title="Questions fréquentes"
-          subtitle="Retrouvez les réponses aux questions les plus posees."
+          subtitle="Retrouvez les réponses aux questions les plus posées."
         />
 
         <Accordion type="single" collapsible className="w-full">

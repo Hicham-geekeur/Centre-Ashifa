@@ -22,7 +22,7 @@ const processSteps = [
     number: "1",
     title: "Bilan initial",
     description:
-      "Évaluation complete de votre situation psychologique et identification des schémas de pensee problématiques.",
+      "Évaluation complète de votre situation psychologique et identification des schémas de pensée problématiques.",
   },
   {
     number: "2",
@@ -40,7 +40,7 @@ const processSteps = [
     number: "4",
     title: "Autonomie",
     description:
-      "Acquisition d'outils concrets pour gerer vos émotions et pensées de maniere autonome.",
+      "Acquisition d'outils concrets pour gérer vos émotions et pensées de manière autonome.",
   },
 ];
 
@@ -48,17 +48,17 @@ const faqItems = [
   {
     question: "Qu'est-ce que la TCC ?",
     answer:
-      "La Thérapie Cognitive et Comportementale (TCC) est une approche thérapeutique scientifiquement validée qui vise a identifier et modifier les pensées négatives automatiques et les comportements problématiques qui maintiennent la souffrance psychologique.",
+      "La Thérapie Cognitive et Comportementale (TCC) est une approche thérapeutique scientifiquement validée qui vise à identifier et modifier les pensées négatives automatiques et les comportements problématiques qui maintiennent la souffrance psychologique.",
   },
   {
     question: "Pour quels troubles la TCC est-elle efficace ?",
     answer:
-      "La TCC est reconnue pour son efficacite dans le traitement de l'anxiété, la dépression, les phobies, les troubles obsessionnels, le stress post-traumatique, les troubles du sommeil et bien d'autres problématiques psychologiques.",
+      "La TCC est reconnue pour son efficacité dans le traitement de l'anxiété, la dépression, les phobies, les troubles obsessionnels, le stress post-traumatique, les troubles du sommeil et bien d'autres problématiques psychologiques.",
   },
   {
-    question: "Combien de séances faut-il prevoir ?",
+    question: "Combien de séances faut-il prévoir ?",
     answer:
-      "La TCC est une thérapie breve. En general, un suivi de 10 a 20 séances permet d'obtenir des résultats significatifs, selon la problématique traitee.",
+      "La TCC est une thérapie brève. En général, un suivi de 10 à 20 séances permet d'obtenir des résultats significatifs, selon la problématique traitée.",
   },
   {
     question: "La TCC est-elle compatible avec la Roqya ?",
@@ -76,7 +76,7 @@ const benefits = [
   "Résolution des troubles du sommeil",
 ];
 
-export default function ThérapieCognitivePage() {
+export default function TherapieCognitivePage() {
   return (
     <>
       <ServiceHero
@@ -94,10 +94,10 @@ export default function ThérapieCognitivePage() {
                 Une approche scientifique et éprouvée
               </h2>
               <p className="mt-6 text-muted-foreground leading-relaxed">
-                La TCC repose sur l&apos;idee que nos pensées, émotions et
+                La TCC repose sur l&apos;idée que nos pensées, émotions et
                 comportements sont étroitement liés. En identifiant les pensées
                 automatiques négatives et les schémas cognitifs dysfonctionnels,
-                nous pouvons les modifier pour améliorer notre bien-etre
+                nous pouvons les modifier pour améliorer notre bien-être
                 psychologique.
               </p>
               <p className="mt-4 text-muted-foreground leading-relaxed">

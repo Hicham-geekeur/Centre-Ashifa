@@ -47,7 +47,7 @@ const faqCategories = [
       {
         question: "Qu'est-ce que la Roqya ?",
         answer:
-          "La Roqya est une pratique islamique qui utilise la récitation du Saint Coran et des invocations prophetiques pour accompagner les personnes touchées par les maux d'origine occulte (sihr, mauvais oeil, mass, waswas, hasad).",
+          "La Roqya est une pratique islamique qui utilise la récitation du Saint Coran et des invocations prophétiques pour accompagner les personnes touchées par les maux d'origine occulte (sihr, mauvais oeil, mass, waswas, hasad).",
       },
       {
         question: "Combien coute une séance de Roqya ?",
@@ -99,7 +99,7 @@ export default function FAQPage() {
               Questions fréquentes
             </h1>
             <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-              Retrouvez les réponses aux questions les plus posees sur nos
+              Retrouvez les réponses aux questions les plus posées sur nos
               services.
             </p>
           </AnimatedSection>

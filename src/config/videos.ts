@@ -52,7 +52,7 @@ export const videos: Video[] = [
     category: "waswas",
     youtubeId: "u5BO1TIHWac",
     description:
-      "Comprendre le phenomene du waswas (chuchotements), ses causes et les remedes prophetiques. 10k vues.",
+      "Comprendre le phenomene du waswas (chuchotements), ses causes et les remedes prophétiques. 10k vues.",
   },
 
   // ─── Mauvais oeil ───
