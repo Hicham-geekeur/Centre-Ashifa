@@ -5,7 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { PreOrderForm } from "@/components/book/PreOrderForm";
-import { BookMockup3D, BackCoverMockup } from "@/components/book/BookMockup";
+import {
+  InteractiveBook3D,
+  BackCoverMockup,
+} from "@/components/book/BookMockup";
 
 export const metadata: Metadata = {
   title: "Le Livre — La Roqya à la lumière du Tawhid",
@@ -47,12 +50,8 @@ export default function LivrePage() {
         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-gold/5" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Single 3D Book mockup */}
-            <AnimatedSection>
-              <div className="flex justify-center">
-                <BookMockup3D className="w-60 sm:w-72 md:w-80" />
-              </div>
-            </AnimatedSection>
+            {/* Interactive 3D Book — drag to rotate 360° */}
+            <InteractiveBook3D className="w-full max-w-sm mx-auto" />
 
             {/* Info */}
             <AnimatedSection delay={0.2}>
