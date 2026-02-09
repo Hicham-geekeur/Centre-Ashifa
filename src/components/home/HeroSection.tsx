@@ -346,7 +346,7 @@ export function HeroSection() {
           </motion.div>
 
           {/* Main heading - word by word reveal */}
-          <h1 className="text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl leading-[1.1]">
+          <h1 className="font-heading italic text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl leading-[1.1]">
             <div className="overflow-hidden pb-2">
               <AnimatedWord word="Bien-être" delay={0.2} />
               <span className="inline-block w-4" />

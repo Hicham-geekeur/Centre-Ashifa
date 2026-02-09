@@ -4,12 +4,18 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle, ArrowRight, Home } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Commande confirmee",
-  description: "Votre pré-commande a ete enregistree avec succes.",
+  title: "Commande confirmée",
+  description: "Votre commande a été enregistrée avec succès.",
   robots: { index: false, follow: false },
 };
 
-export default function ConfirmationPage() {
+export default async function ConfirmationPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ ref?: string }>;
+}) {
+  const { ref } = await searchParams;
+
   return (
     <section className="min-h-screen flex items-center justify-center py-32">
       <div className="mx-auto max-w-lg px-4 text-center">
@@ -20,18 +26,20 @@ export default function ConfirmationPage() {
           Merci pour votre commande !
         </h1>
         <p className="mt-4 text-lg text-muted-foreground">
-          Votre pré-commande a ete enregistree avec succes. Vous recevrez un
-          email de confirmation avec les details de votre commande.
+          Votre commande a été enregistrée avec succès. Le livre vous sera
+          expédié dans les meilleurs délais.
         </p>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Le livre vous sera expedie des sa parution.
-        </p>
+        {ref && (
+          <p className="mt-2 text-sm text-muted-foreground">
+            Référence : <span className="font-mono font-medium">{ref}</span>
+          </p>
+        )}
 
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button asChild>
             <Link href="/">
               <Home className="mr-2 h-4 w-4" />
-              Retour a l&apos;accueil
+              Retour à l&apos;accueil
             </Link>
           </Button>
           <Button asChild variant="outline">

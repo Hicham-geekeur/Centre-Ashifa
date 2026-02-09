@@ -4,7 +4,7 @@ import { Star, CheckCircle, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
-import { PreOrderForm } from "@/components/book/PreOrderForm";
+import { OrderForm } from "@/components/book/OrderForm";
 import {
   InteractiveBook3D,
   BackCoverMockup,
@@ -59,7 +59,7 @@ export default function LivrePage() {
                 <div>
                   <Badge className="mb-4 bg-gold text-gold-foreground hover:bg-gold/90">
                     <Star className="mr-1 h-3 w-3" />
-                    Pré-commande
+                    Disponible
                   </Badge>
                   <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
                     La Roqya à la lumière du Tawhid
@@ -96,7 +96,7 @@ export default function LivrePage() {
                   ))}
                 </ul>
 
-                <PreOrderForm />
+                <OrderForm />
 
                 <div className="mt-4 text-center">
                   <Button asChild variant="outline" className="w-full h-11">

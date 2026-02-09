@@ -30,7 +30,7 @@ export function BookPreviewSection() {
             Un ouvrage essentiel sur la Roqya
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-            Disponible en pré-commande — Le premier livre de Larbi Al-Khattab
+            Disponible — Commander maintenant
           </p>
         </motion.div>
 
@@ -83,7 +83,7 @@ export function BookPreviewSection() {
             <div className="pt-2">
               <Button asChild size="lg">
                 <Link href="/livre">
-                  Pré-commander le livre
+                  Commander le livre
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

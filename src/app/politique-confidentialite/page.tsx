@@ -25,9 +25,9 @@ export default function PolitiqueConfidentialitePage() {
           <li>Adresse email (formulaire de contact)</li>
           <li>Numero de telephone (formulaire de contact)</li>
           <li>
-            Adresse postale (en cas de commande de livre, via Stripe)
+            Adresse postale (en cas de commande de livre, via SumUp)
           </li>
-          <li>Informations de paiement (traitees exclusivement par Stripe)</li>
+          <li>Informations de paiement (traitées exclusivement par SumUp)</li>
         </ul>
 
         <h2>2. Utilisation des donnees</h2>
@@ -54,15 +54,15 @@ export default function PolitiqueConfidentialitePage() {
 
         <h2>4. Paiement en ligne</h2>
         <p>
-          Les paiements en ligne sont geres exclusivement par Stripe, Inc. Nous
-          né stockons aucune information bancaire sur nos serveurs. Pour plus
+          Les paiements en ligne sont gérés exclusivement par SumUp Limited. Nous
+          ne stockons aucune information bancaire sur nos serveurs. Pour plus
           d&apos;informations, consultez la{" "}
           <a
-            href="https://stripe.com/fr/privacy"
+            href="https://www.sumup.com/fr-fr/confidentialite/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            politique de confidentialite de Stripe
+            politique de confidentialité de SumUp
           </a>
           .
         </p>

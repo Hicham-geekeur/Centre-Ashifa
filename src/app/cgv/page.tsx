@@ -47,7 +47,7 @@ export default function CGVPage() {
         <h2>5. Paiement</h2>
         <p>
           Le paiement s&apos;effectue en ligne par carte bancaire via la
-          plateforme sécurisée Stripe. Le debit est effectue au moment de la
+          plateforme sécurisée SumUp. Le débit est effectué au moment de la
           validation de la commande.
         </p>
 
@@ -55,7 +55,7 @@ export default function CGVPage() {
         <p>
           Les produits sont livres en France metropolitaine. Les delais de
           livraison sont donnes a titre indicatif. En cas de pré-commande, la
-          livraison s&apos;effectuera des la parution du produit.
+          livraison s&apos;effectuera dans les meilleurs délais.
         </p>
 
         <h2>7. Droit de retractation</h2>

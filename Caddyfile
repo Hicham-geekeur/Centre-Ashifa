@@ -1,0 +1,7 @@
+centre-ashifa.fr {
+    reverse_proxy app:3000
+}
+
+www.centre-ashifa.fr {
+    redir https://centre-ashifa.fr{uri}
+}
