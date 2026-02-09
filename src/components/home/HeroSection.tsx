@@ -468,7 +468,7 @@ export function HeroSection() {
               >
                 <Link href="/livre">
                   <BookOpen className="mr-2 h-4 w-4" />
-                  Pré-commander le livre
+                  Acheter le livre
                 </Link>
               </Button>
             </motion.div>

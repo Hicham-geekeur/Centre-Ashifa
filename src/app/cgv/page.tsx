@@ -54,8 +54,8 @@ export default function CGVPage() {
         <h2>6. Livraison</h2>
         <p>
           Les produits sont livres en France metropolitaine. Les delais de
-          livraison sont donnes a titre indicatif. En cas de pré-commande, la
-          livraison s&apos;effectuera dans les meilleurs délais.
+          livraison sont donnes a titre indicatif. La livraison
+          s&apos;effectuera dans les meilleurs délais.
         </p>
 
         <h2>7. Droit de retractation</h2>
