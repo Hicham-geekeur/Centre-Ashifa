@@ -4,6 +4,7 @@ services:
     restart: always
     environment:
       - NODE_ENV=production
+      - PORT=3000
       - SUMUP_API_KEY=${SUMUP_API_KEY}
       - SUMUP_MERCHANT_CODE=${SUMUP_MERCHANT_CODE}
       - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
@@ -12,23 +13,8 @@ services:
       - EDITOR_EMAIL=${EDITOR_EMAIL}
     volumes:
       - order-data:/app/data
-    expose:
-      - "3000"
-
-  caddy:
-    image: caddy:2-alpine
-    restart: always
-    command: sh -c "printf 'centre-ashifa.fr {\n\treverse_proxy app:3000\n}\nwww.centre-ashifa.fr {\n\tredir https://centre-ashifa.fr{uri}\n}\n' > /etc/caddy/Caddyfile && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - caddy-data:/data
-      - caddy-config:/config
-    depends_on:
-      - app
+      - "3000:3000"
 
 volumes:
   order-data:
-  caddy-data:
-  caddy-config:
