@@ -18,11 +18,11 @@ services:
   caddy:
     image: caddy:2-alpine
     restart: always
+    command: sh -c "printf 'centre-ashifa.fr {\n\treverse_proxy app:3000\n}\nwww.centre-ashifa.fr {\n\tredir https://centre-ashifa.fr{uri}\n}\n' > /etc/caddy/Caddyfile && caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy-data:/data
       - caddy-config:/config
     depends_on:
