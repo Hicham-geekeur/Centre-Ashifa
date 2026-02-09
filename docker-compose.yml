@@ -14,7 +14,7 @@ services:
     volumes:
       - order-data:/app/data
     ports:
-      - "3000:3000"
+      - "4000:3000"
 
 volumes:
   order-data:
