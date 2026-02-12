@@ -124,7 +124,7 @@ function buildEditorEmailHtml(order: OrderData): string {
   ${priceBlock(order)}
 
   <p style="font-size: 12px; color: #9ca3af; text-align: center;">
-    Paiement confirmé via SumUp le ${date} à ${time}
+    Paiement confirmé via PayPal le ${date} à ${time}
   </p>
 </body>
 </html>`;
@@ -165,7 +165,7 @@ function buildMerchantEmailHtml(order: OrderData): string {
   ${priceBlock(order)}
 
   <p style="font-size: 12px; color: #9ca3af; text-align: center;">
-    Paiement confirmé via SumUp le ${date} à ${time}<br>
+    Paiement confirmé via PayPal le ${date} à ${time}<br>
     L'éditeur (${process.env.EDITOR_EMAIL}) a été notifié pour l'expédition.
   </p>
 </body>

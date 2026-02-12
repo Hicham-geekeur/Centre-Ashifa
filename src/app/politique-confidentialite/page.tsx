@@ -25,9 +25,9 @@ export default function PolitiqueConfidentialitePage() {
           <li>Adresse email (formulaire de contact)</li>
           <li>Numero de telephone (formulaire de contact)</li>
           <li>
-            Adresse postale (en cas de commande de livre, via SumUp)
+            Adresse postale (en cas de commande de livre)
           </li>
-          <li>Informations de paiement (traitées exclusivement par SumUp)</li>
+          <li>Informations de paiement (traitées exclusivement par PayPal)</li>
         </ul>
 
         <h2>2. Utilisation des donnees</h2>
@@ -54,15 +54,16 @@ export default function PolitiqueConfidentialitePage() {
 
         <h2>4. Paiement en ligne</h2>
         <p>
-          Les paiements en ligne sont gérés exclusivement par SumUp Limited. Nous
-          ne stockons aucune information bancaire sur nos serveurs. Pour plus
+          Les paiements en ligne sont gérés exclusivement par PayPal
+          (Europe) S.à r.l. et Cie, S.C.A. Nous ne stockons aucune
+          information bancaire sur nos serveurs. Pour plus
           d&apos;informations, consultez la{" "}
           <a
-            href="https://www.sumup.com/fr-fr/confidentialite/"
+            href="https://www.paypal.com/fr/legalhub/privacy-full"
             target="_blank"
             rel="noopener noreferrer"
           >
-            politique de confidentialité de SumUp
+            politique de confidentialité de PayPal
           </a>
           .
         </p>

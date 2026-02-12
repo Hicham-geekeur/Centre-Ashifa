@@ -46,9 +46,9 @@ export default function CGVPage() {
 
         <h2>5. Paiement</h2>
         <p>
-          Le paiement s&apos;effectue en ligne par carte bancaire via la
-          plateforme sécurisée SumUp. Le débit est effectué au moment de la
-          validation de la commande.
+          Le paiement s&apos;effectue en ligne via la plateforme sécurisée
+          PayPal. Le débit est effectué au moment de la validation de la
+          commande.
         </p>
 
         <h2>6. Livraison</h2>

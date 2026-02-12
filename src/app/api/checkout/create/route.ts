@@ -5,8 +5,12 @@ import {
   SHIPPING_PRICE,
   calculateTotal,
 } from "@/lib/validations";
-import { createCheckout } from "@/lib/sumup";
-import { saveOrder, generateCheckoutReference } from "@/lib/orders";
+import { createOrder } from "@/lib/paypal";
+import {
+  saveOrder,
+  generateCheckoutReference,
+  updateOrderStatus,
+} from "@/lib/orders";
 
 export async function POST(req: NextRequest) {
   try {
@@ -35,6 +39,7 @@ export async function POST(req: NextRequest) {
     const checkoutReference = generateCheckoutReference();
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
+    // Sauvegarder la commande en "pending"
     saveOrder({
       checkoutReference,
       firstName,
@@ -52,18 +57,21 @@ export async function POST(req: NextRequest) {
       status: "pending",
     });
 
-    const checkout = await createCheckout({
-      checkout_reference: checkoutReference,
+    // Créer la commande PayPal
+    const paypalOrder = await createOrder({
+      reference_id: checkoutReference,
+      description: `Livre "La Roqya à la lumière du Tawhid" x${quantity}`,
       amount: totalAmount,
       currency: "EUR",
-      merchant_code: process.env.SUMUP_MERCHANT_CODE!,
-      description: `Livre "La Roqya à la lumière du Tawhid" x${quantity}`,
-      return_url: `${baseUrl}/api/checkout/webhook`,
-      redirect_url: `${baseUrl}/livre/confirmation?ref=${checkoutReference}`,
-      hosted_checkout: { enabled: true },
+      return_url: `${baseUrl}/api/checkout/capture?ref=${checkoutReference}`,
+      cancel_url: `${baseUrl}/livre`,
     });
 
-    return NextResponse.json({ url: checkout.hosted_checkout_url });
+    // Stocker l'ID PayPal dans la commande
+    updateOrderStatus(checkoutReference, "pending", paypalOrder.id);
+
+    // Retourner l'ID PayPal pour le SDK JS côté client
+    return NextResponse.json({ orderId: paypalOrder.id });
   } catch (error) {
     console.error("Checkout creation error:", error);
     return NextResponse.json(

@@ -16,7 +16,7 @@ export interface OrderData {
   totalAmount: number;
   createdAt: string;
   status: "pending" | "paid" | "failed" | "expired";
-  sumupCheckoutId?: string;
+  paypalOrderId?: string;
 }
 
 const DATA_DIR = join(process.cwd(), "data");
@@ -54,13 +54,13 @@ export function getOrder(checkoutReference: string): OrderData | null {
 export function updateOrderStatus(
   checkoutReference: string,
   status: OrderData["status"],
-  sumupCheckoutId?: string
+  paypalOrderId?: string
 ): void {
   const orders = readOrders();
   if (orders[checkoutReference]) {
     orders[checkoutReference].status = status;
-    if (sumupCheckoutId) {
-      orders[checkoutReference].sumupCheckoutId = sumupCheckoutId;
+    if (paypalOrderId) {
+      orders[checkoutReference].paypalOrderId = paypalOrderId;
     }
     writeOrders(orders);
   }
