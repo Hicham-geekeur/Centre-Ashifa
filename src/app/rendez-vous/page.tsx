@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { CalendarDays, Home, Clock, MapPin, Heart } from "lucide-react";
+import { CalendarDays, Home, Clock, MapPin, Heart, Bell } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { siteConfig } from "@/config/site";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { CalendlyEmbed } from "@/components/appointment/CalendlyEmbed";
+import { WaitlistForm } from "@/components/appointment/WaitlistForm";
 
 export const metadata: Metadata = {
   title: "Prendre rendez-vous",
@@ -101,6 +102,36 @@ export default function RendezVousPage() {
               {siteConfig.email}
             </a>
           </p>
+        </div>
+      </section>
+
+      {/* Liste d'attente */}
+      <section className="py-12 bg-accent/30">
+        <div className="mx-auto max-w-2xl px-4 sm:px-6 lg:px-8">
+          <AnimatedSection>
+            <div className="text-center">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
+                <Bell className="h-8 w-8 text-primary" />
+              </div>
+              <Badge variant="outline" className="mb-4">
+                Liste d&apos;attente
+              </Badge>
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                Aucun créneau ne vous convient ?
+              </h2>
+              <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground">
+                Inscrivez-vous sur la liste d&apos;attente : nous vous
+                contacterons dès qu&apos;une place se libère, selon vos
+                disponibilités.
+              </p>
+            </div>
+          </AnimatedSection>
+
+          <AnimatedSection>
+            <div className="mt-8 rounded-xl border border-border bg-white p-6 shadow-sm sm:p-8">
+              <WaitlistForm />
+            </div>
+          </AnimatedSection>
         </div>
       </section>
     </>

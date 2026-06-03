@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import type { OrderData } from "./orders";
+import type { WaitlistEntry } from "./waitlist";
 
 function getTransporter() {
   return nodemailer.createTransport({
@@ -63,6 +64,146 @@ async function sendClientEmail(order: OrderData, recipientOverride?: string): Pr
     subject: `Confirmation de votre commande — Centre Ashifa`,
     html: buildClientEmailHtml(order),
   });
+}
+
+// ─── Liste d'attente ─────────────────────────────────────────
+
+const LOCATION_LABELS: Record<WaitlistEntry["location"], string> = {
+  cabinet: "Au cabinet",
+  distance: "À distance",
+  indifferent: "Indifférent",
+};
+
+const SESSION_LABELS: Record<WaitlistEntry["sessionType"], string> = {
+  roqya: "Roqya-thérapie",
+  tcc: "TCC",
+  indifferent: "Indifférent",
+};
+
+/** Envoie la notification à Centre Ashifa + la confirmation au client */
+export async function sendWaitlistEmails(entry: WaitlistEntry): Promise<void> {
+  await Promise.all([
+    sendWaitlistAdminEmail(entry),
+    sendWaitlistClientEmail(entry),
+  ]);
+}
+
+/** Email à Centre Ashifa : nouvelle inscription en liste d'attente */
+async function sendWaitlistAdminEmail(entry: WaitlistEntry): Promise<void> {
+  const adminEmail = process.env.GMAIL_USER;
+  if (!adminEmail) throw new Error("GMAIL_USER is not configured");
+
+  await getTransporter().sendMail({
+    from: getFrom(),
+    to: adminEmail,
+    replyTo: entry.email,
+    subject: `📝 Liste d'attente — ${entry.name}`,
+    html: buildWaitlistAdminHtml(entry),
+  });
+}
+
+/** Email au client : confirmation d'inscription en liste d'attente */
+async function sendWaitlistClientEmail(entry: WaitlistEntry): Promise<void> {
+  await getTransporter().sendMail({
+    from: getFrom(),
+    to: entry.email,
+    subject: "Vous êtes inscrit·e sur la liste d'attente — Centre Ashifa",
+    html: buildWaitlistClientHtml(entry),
+  });
+}
+
+function buildWaitlistAdminHtml(entry: WaitlistEntry): string {
+  const { date, time } = formatDate();
+  return `
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"></head>
+<body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
+  <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+    <h1 style="color: #1e40af; margin: 0 0 8px 0; font-size: 20px;">📝 Nouvelle inscription en liste d'attente</h1>
+    <p style="color: #2563eb; margin: 0; font-size: 14px;">Référence : ${entry.id}</p>
+  </div>
+
+  <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+    <tr>
+      <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-weight: 600; width: 40%;">Nom</td>
+      <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">${entry.name}</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-weight: 600;">Email</td>
+      <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;"><a href="mailto:${entry.email}">${entry.email}</a></td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-weight: 600;">Téléphone</td>
+      <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;"><a href="tel:${entry.phone}">${entry.phone}</a></td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-weight: 600;">Type de séance</td>
+      <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">${SESSION_LABELS[entry.sessionType]}</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-weight: 600;">Lieu</td>
+      <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">${LOCATION_LABELS[entry.location]}</td>
+    </tr>
+    <tr>
+      <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; font-weight: 600; vertical-align: top;">Disponibilités</td>
+      <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">${entry.availability || "Non précisé"}</td>
+    </tr>
+  </table>
+
+  <p style="font-size: 14px; color: #6b7280;">
+    Rappelez cette personne dès qu'un créneau se libère. Vous pouvez répondre
+    directement à cet email pour la recontacter par email.
+  </p>
+
+  <p style="font-size: 12px; color: #9ca3af; text-align: center;">
+    Inscription enregistrée le ${date} à ${time}
+  </p>
+</body>
+</html>`;
+}
+
+function buildWaitlistClientHtml(entry: WaitlistEntry): string {
+  const { date } = formatDate();
+  const firstName = entry.name.split(" ")[0];
+  return `
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"></head>
+<body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
+  <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+    <h1 style="color: #166534; margin: 0 0 8px 0; font-size: 20px;">Vous êtes sur la liste d'attente</h1>
+  </div>
+
+  <p style="font-size: 16px; line-height: 1.6;">
+    Assalamu alaykum ${firstName},<br><br>
+    Nous avons bien enregistré votre demande de rendez-vous. Pour le moment nos
+    créneaux sont complets, mais nous vous contacterons dès qu'une place se
+    libère, en fonction des disponibilités que vous nous avez indiquées.
+  </p>
+
+  <div style="background: #f9fafb; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+    <h3 style="margin: 0 0 8px 0; font-size: 14px; color: #6b7280;">Votre demande</h3>
+    <p style="margin: 0; font-size: 14px; line-height: 1.6;">
+      Type de séance : <strong>${SESSION_LABELS[entry.sessionType]}</strong><br>
+      Lieu : <strong>${LOCATION_LABELS[entry.location]}</strong><br>
+      ${entry.availability ? `Disponibilités : <strong>${entry.availability}</strong>` : ""}
+    </p>
+  </div>
+
+  <p style="font-size: 14px; color: #6b7280; line-height: 1.6;">
+    Pour toute question, contactez-nous à
+    <a href="mailto:centre.ashifa67@gmail.com">centre.ashifa67@gmail.com</a>
+    ou au 07 68 84 84 83.
+  </p>
+
+  <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;">
+  <p style="font-size: 12px; color: #9ca3af; text-align: center;">
+    Centre Ashifa — ${date}<br>
+    Strasbourg, France
+  </p>
+</body>
+</html>`;
 }
 
 // ─── Templates ───────────────────────────────────────────────

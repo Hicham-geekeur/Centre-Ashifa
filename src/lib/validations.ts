@@ -13,6 +13,17 @@ export const orderFormSchema = z.object({
 
 export type OrderFormData = z.infer<typeof orderFormSchema>;
 
+export const waitlistFormSchema = z.object({
+  name: z.string().min(2, "Veuillez indiquer votre nom"),
+  email: z.string().email("Adresse email invalide"),
+  phone: z.string().min(6, "Numéro de téléphone requis"),
+  location: z.enum(["cabinet", "distance", "indifferent"]),
+  sessionType: z.enum(["roqya", "tcc", "indifferent"]),
+  availability: z.string().optional().default(""),
+});
+
+export type WaitlistFormData = z.infer<typeof waitlistFormSchema>;
+
 export const BOOK_PRICE = 12;
 export const SHIPPING_PRICE = 5;
 
