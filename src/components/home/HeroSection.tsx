@@ -326,7 +326,8 @@ export function HeroSection({ stats }: { stats?: DonationStats | null }) {
         style={{ y: contentY, opacity: contentOpacity }}
       >
         <div className="text-center">
-          {/* Animated badge */}
+          {/* Badge + compteur de dons compact, visibles dès l'ouverture */}
+          <div className="mb-8 flex flex-wrap items-center justify-center gap-3">
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -334,7 +335,7 @@ export function HeroSection({ stats }: { stats?: DonationStats | null }) {
           >
             <Badge
               variant="secondary"
-              className="mb-8 px-5 py-2 text-sm font-medium shadow-sm backdrop-blur-sm border border-border/50"
+              className="px-5 py-2 text-sm font-medium shadow-sm backdrop-blur-sm border border-border/50"
             >
               <motion.span
                 className="mr-2 inline-block h-2 w-2 rounded-full bg-emerald-500"
@@ -347,6 +348,8 @@ export function HeroSection({ stats }: { stats?: DonationStats | null }) {
               Séances gratuites - Cabinet et à distance
             </Badge>
           </motion.div>
+          {stats && <DonationPill stats={stats} delay={0.3} />}
+          </div>
 
           {/* Main heading - word by word reveal */}
           <h1 className="font-heading italic text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl leading-[1.1]">
@@ -492,13 +495,6 @@ export function HeroSection({ stats }: { stats?: DonationStats | null }) {
               </Button>
             </motion.div>
           </motion.div>
-
-          {/* Compteur de dons compact */}
-          {stats && (
-            <div className="mt-6">
-              <DonationPill stats={stats} delay={1.9} />
-            </div>
-          )}
 
           {/* Trust badges - spring animation */}
           <motion.div
