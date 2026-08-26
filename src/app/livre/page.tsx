@@ -42,7 +42,12 @@ const features = [
   "Une réponse claire à la question : demander la Roqya est-il déconseillé ?",
 ];
 
-export default function LivrePage() {
+export default async function LivrePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ annule?: string }>;
+}) {
+  const { annule } = await searchParams;
   return (
     <>
       {/* Hero */}
@@ -95,6 +100,13 @@ export default function LivrePage() {
                     </li>
                   ))}
                 </ul>
+
+                {annule && (
+                  <p className="rounded-lg bg-amber-50 border border-amber-200 p-3 text-sm text-amber-800">
+                    Paiement annulé — aucun montant n&apos;a été débité. Vous
+                    pouvez réessayer ci-dessous.
+                  </p>
+                )}
 
                 <OrderForm />
 

@@ -1,6 +1,7 @@
 import nodemailer from "nodemailer";
 import type { OrderData } from "./orders";
 import type { WaitlistEntry } from "./waitlist";
+import type { SupportEntry } from "./support";
 
 function getTransporter() {
   return nodemailer.createTransport({
@@ -265,7 +266,7 @@ function buildEditorEmailHtml(order: OrderData): string {
   ${priceBlock(order)}
 
   <p style="font-size: 12px; color: #9ca3af; text-align: center;">
-    Paiement confirmé via PayPal le ${date} à ${time}
+    Paiement confirmé via Stripe le ${date} à ${time}
   </p>
 </body>
 </html>`;
@@ -306,7 +307,7 @@ function buildMerchantEmailHtml(order: OrderData): string {
   ${priceBlock(order)}
 
   <p style="font-size: 12px; color: #9ca3af; text-align: center;">
-    Paiement confirmé via PayPal le ${date} à ${time}<br>
+    Paiement confirmé via Stripe le ${date} à ${time}<br>
     L'éditeur (${process.env.EDITOR_EMAIL}) a été notifié pour l'expédition.
   </p>
 </body>
@@ -353,6 +354,107 @@ function buildClientEmailHtml(order: OrderData): string {
   <p style="font-size: 12px; color: #9ca3af; text-align: center;">
     Centre Ashifa — ${date}<br>
     Strasbourg, France
+  </p>
+</body>
+</html>`;
+}
+
+// ─── Dons & cotisations ──────────────────────────────────────
+
+function supportLabel(entry: SupportEntry): string {
+  if (entry.kind === "membership") return `Cotisation membre bienfaiteur — ${entry.amount} €/mois`;
+  return entry.interval === "month" ? `Don mensuel — ${entry.amount} €/mois` : `Don — ${entry.amount} €`;
+}
+
+/** Envoie la confirmation au donateur/adhérent + la notification interne */
+export async function sendSupportEmails(entry: SupportEntry): Promise<void> {
+  await Promise.all([sendSupportAdminEmail(entry), sendSupportClientEmail(entry)]);
+}
+
+async function sendSupportAdminEmail(entry: SupportEntry): Promise<void> {
+  const adminEmail = process.env.GMAIL_USER;
+  if (!adminEmail) throw new Error("GMAIL_USER is not configured");
+  const icon = entry.kind === "membership" ? "🤝" : "💚";
+  await getTransporter().sendMail({
+    from: getFrom(),
+    to: adminEmail,
+    replyTo: entry.email,
+    subject: `${icon} ${supportLabel(entry)} (${entry.firstName} ${entry.lastName})`,
+    html: buildSupportAdminHtml(entry),
+  });
+}
+
+async function sendSupportClientEmail(entry: SupportEntry): Promise<void> {
+  await getTransporter().sendMail({
+    from: getFrom(),
+    to: entry.email,
+    subject:
+      entry.kind === "membership"
+        ? "Bienvenue parmi les membres bienfaiteurs — Centre Ashifa"
+        : "Merci pour votre don — Centre Ashifa",
+    html: buildSupportClientHtml(entry),
+  });
+}
+
+function buildSupportAdminHtml(entry: SupportEntry): string {
+  const { date, time } = formatDate();
+  return `
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"></head>
+<body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
+  <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+    <h1 style="color: #065f46; margin: 0 0 8px 0; font-size: 20px;">${supportLabel(entry)}</h1>
+    <p style="color: #047857; margin: 0; font-size: 14px;">Référence : ${entry.id}</p>
+  </div>
+  <div style="background: #fafafa; border-radius: 12px; padding: 20px; margin-bottom: 24px;">
+    <p style="margin: 0; line-height: 1.6;">
+      <strong>${entry.firstName} ${entry.lastName}</strong><br>
+      Email : <a href="mailto:${entry.email}">${entry.email}</a><br>
+      ${entry.stripeCustomerId ? `Client Stripe : ${entry.stripeCustomerId}<br>` : ""}
+      ${entry.stripeSubscriptionId ? `Abonnement Stripe : ${entry.stripeSubscriptionId}<br>` : ""}
+    </p>
+  </div>
+  <p style="font-size: 12px; color: #9ca3af; text-align: center;">
+    Paiement confirmé via Stripe le ${date} à ${time}
+  </p>
+</body>
+</html>`;
+}
+
+function buildSupportClientHtml(entry: SupportEntry): string {
+  const { date } = formatDate();
+  const isMembership = entry.kind === "membership";
+  const recurring = entry.interval === "month";
+  return `
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"></head>
+<body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
+  <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 24px; margin-bottom: 24px;">
+    <h1 style="color: #065f46; margin: 0 0 8px 0; font-size: 20px;">
+      ${isMembership ? "Bienvenue parmi nos membres bienfaiteurs" : "Merci du fond du cœur"}
+    </h1>
+    <p style="color: #047857; margin: 0; font-size: 14px;">Référence : ${entry.id}</p>
+  </div>
+  <p>Bonjour ${entry.firstName},</p>
+  <p>
+    ${
+      isMembership
+        ? `Votre cotisation de <strong>${entry.amount} €/mois</strong> à l'association ASHIFA BIEN-ÊTRE ET ÉQUILIBRE est confirmée. Vous êtes désormais membre bienfaiteur de l'association.`
+        : recurring
+          ? `Votre don mensuel de <strong>${entry.amount} €</strong> à l'association ASHIFA BIEN-ÊTRE ET ÉQUILIBRE est confirmé.`
+          : `Votre don de <strong>${entry.amount} €</strong> à l'association ASHIFA BIEN-ÊTRE ET ÉQUILIBRE est confirmé.`
+    }
+  </p>
+  <p>
+    Grâce à vous, nous pouvons continuer à proposer des séances entièrement gratuites à celles et ceux qui en ont besoin.
+  </p>
+  ${recurring ? `<p style="font-size: 14px; color: #6b7280;">Vous pouvez modifier ou arrêter ce prélèvement à tout moment depuis la page <a href="https://centre-ashifa.fr/soutenir">Nous soutenir</a> (« Gérer mon soutien mensuel »).</p>` : ""}
+  <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0;">
+  <p style="font-size: 12px; color: #9ca3af; text-align: center;">
+    Centre Ashifa — ${date}<br>
+    8 avenue de l'Énergie, 67800 Bischheim
   </p>
 </body>
 </html>`;

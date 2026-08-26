@@ -1,110 +1,61 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyWebhookSignature } from "@/lib/paypal";
+import type Stripe from "stripe";
+import { getStripe } from "@/lib/stripe";
+import { handleCheckoutCompleted } from "@/lib/checkout-events";
 import { getOrder, updateOrderStatus } from "@/lib/orders";
-import { sendAllOrderEmails } from "@/lib/email";
+import { getSupportEntry, markSupportPaid } from "@/lib/support";
+import { sendAllOrderEmails, sendSupportEmails } from "@/lib/email";
 
 /**
- * Webhook PayPal — filet de sécurité si le retour capture échoue.
- * Gère l'événement PAYMENT.CAPTURE.COMPLETED.
+ * Webhook Stripe — événement `checkout.session.completed`.
+ * Le corps brut est nécessaire pour vérifier la signature.
  */
 export async function POST(req: NextRequest) {
+  const secret = process.env.STRIPE_WEBHOOK_SECRET;
+  const signature = req.headers.get("stripe-signature");
+  if (!secret || !signature) {
+    return NextResponse.json({ error: "Webhook non configuré" }, { status: 400 });
+  }
+
+  let event: Stripe.Event;
   try {
     const rawBody = await req.text();
+    event = getStripe().webhooks.constructEvent(rawBody, signature, secret);
+  } catch (err) {
+    console.error("Stripe webhook signature verification failed:", err);
+    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
+  }
 
-    // Vérifier la signature du webhook PayPal
-    const headers: Record<string, string> = {};
-    for (const key of [
-      "paypal-auth-algo",
-      "paypal-cert-url",
-      "paypal-transmission-id",
-      "paypal-transmission-sig",
-      "paypal-transmission-time",
-    ]) {
-      const value = req.headers.get(key);
-      if (value) headers[key] = value;
-    }
-
-    const isValid = await verifyWebhookSignature(headers, rawBody);
-    if (!isValid) {
-      console.error("PayPal webhook signature verification failed");
-      return NextResponse.json(
-        { error: "Invalid signature" },
-        { status: 401 }
-      );
-    }
-
-    const body = JSON.parse(rawBody);
-    const eventType = body.event_type;
-
-    // On ne traite que les captures complétées
-    if (eventType !== "PAYMENT.CAPTURE.COMPLETED") {
-      return NextResponse.json({ received: true });
-    }
-
-    const resource = body.resource;
-    const paypalOrderId = resource?.supplementary_data?.related_ids?.order_id;
-
-    if (!paypalOrderId) {
-      console.error("No order ID found in webhook payload");
-      return NextResponse.json({ received: true });
-    }
-
-    // Chercher la commande via le reference_id dans les purchase_units
-    // Le webhook PAYMENT.CAPTURE.COMPLETED contient le custom_id ou reference_id
-    const referenceId =
-      resource?.custom_id ||
-      resource?.supplementary_data?.related_ids?.order_id;
-
-    // Parcourir toutes les commandes pour trouver celle avec ce paypalOrderId
-    // (le reference_id est notre checkoutReference)
-    const { readFileSync, existsSync } = await import("fs");
-    const { join } = await import("path");
-    const ordersFile = join(process.cwd(), "data", "orders.json");
-
-    if (!existsSync(ordersFile)) {
-      return NextResponse.json({ received: true });
-    }
-
-    const orders = JSON.parse(readFileSync(ordersFile, "utf-8"));
-    let matchedRef: string | null = null;
-
-    for (const [ref, order] of Object.entries(orders)) {
-      const typedOrder = order as { paypalOrderId?: string };
-      if (typedOrder.paypalOrderId === paypalOrderId) {
-        matchedRef = ref;
-        break;
-      }
-    }
-
-    if (!matchedRef) {
-      console.error(
-        `No order found for PayPal order ID: ${paypalOrderId} (ref: ${referenceId})`
-      );
-      return NextResponse.json({ received: true });
-    }
-
-    const order = getOrder(matchedRef);
-    if (!order) {
-      return NextResponse.json({ received: true });
-    }
-
-    // Idempotent : ne pas retraiter
-    if (order.status === "paid") {
-      return NextResponse.json({ received: true });
-    }
-
-    updateOrderStatus(matchedRef, "paid", paypalOrderId);
-
-    try {
-      await sendAllOrderEmails(order);
-      console.log(`Webhook: all order emails sent for: ${matchedRef}`);
-    } catch (emailError) {
-      console.error("Webhook: failed to send order emails:", emailError);
-    }
-
+  if (event.type !== "checkout.session.completed") {
     return NextResponse.json({ received: true });
+  }
+
+  const session = event.data.object as Stripe.Checkout.Session;
+  const customer =
+    typeof session.customer === "string"
+      ? session.customer
+      : (session.customer?.id ?? null);
+  const subscription =
+    typeof session.subscription === "string"
+      ? session.subscription
+      : (session.subscription?.id ?? null);
+
+  try {
+    const result = await handleCheckoutCompleted(
+      { id: session.id, metadata: session.metadata, customer, subscription },
+      {
+        getOrder,
+        updateOrderStatus,
+        sendOrderEmails: sendAllOrderEmails,
+        getSupportEntry,
+        markSupportPaid,
+        sendSupportEmails,
+      }
+    );
+    console.log(`Stripe webhook ${session.id}: ${result}`);
+    return NextResponse.json({ received: true, result });
   } catch (error) {
-    console.error("Webhook error:", error);
+    console.error("Webhook processing error:", error);
     return NextResponse.json(
       { error: "Webhook processing error" },
       { status: 500 }

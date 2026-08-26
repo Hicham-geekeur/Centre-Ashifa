@@ -9,6 +9,7 @@ export const mainNavItems = [
     ],
   },
   { label: "Le Livre", href: "/livre" },
+  { label: "Nous soutenir", href: "/soutenir" },
   { label: "Videos", href: "/videos" },
   { label: "À propos", href: "/a-propos" },
   { label: "Contact", href: "/contact" },
@@ -24,6 +25,7 @@ export const footerNavItems = {
     { label: "FAQ", href: "/faq" },
     { label: "Videos", href: "/videos" },
     { label: "Le Livre", href: "/livre" },
+    { label: "Nous soutenir", href: "/soutenir" },
   ],
   legal: [
     { label: "Mentions legales", href: "/mentions-legales" },

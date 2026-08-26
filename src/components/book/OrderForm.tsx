@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -10,16 +9,12 @@ import {
   Plus,
   Lock,
   AlertCircle,
-  ArrowLeft,
+  Loader2,
 } from "lucide-react";
 import { BOOK_PRICE, SHIPPING_PRICE, calculateTotal } from "@/lib/validations";
-import { PayPalCheckout } from "./PayPalCheckout";
-
-type Step = "form" | "payment";
 
 export function OrderForm() {
-  const router = useRouter();
-  const [step, setStep] = useState<Step>("form");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [formData, setFormData] = useState({
@@ -34,270 +29,219 @@ export function OrderForm() {
 
   const total = calculateTotal(quantity);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setStep("payment");
-  };
-
-  const handlePaymentSuccess = useCallback(
-    (ref: string) => {
-      router.push(`/livre/confirmation?ref=${ref}`);
-    },
-    [router]
-  );
-
-  const handlePaymentError = useCallback((message: string) => {
-    setError(message);
-  }, []);
-
   const update = (field: string, value: string) =>
     setFormData((prev) => ({ ...prev, [field]: value }));
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/checkout/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, quantity }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.url) {
+        setError(data.error || "Une erreur est survenue. Veuillez réessayer.");
+        setLoading(false);
+        return;
+      }
+      window.location.href = data.url;
+    } catch {
+      setError("Une erreur est survenue. Veuillez réessayer.");
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="rounded-xl bg-white p-6 shadow-lg border border-border">
-      <h3 className="text-lg font-semibold mb-4">
-        {step === "form" ? "Commander le livre" : "Paiement sécurisé"}
-      </h3>
+      <h3 className="text-lg font-semibold mb-4">Commander le livre</h3>
 
-      {/* ─── Étape 1 : Formulaire ─── */}
-      {step === "form" && (
-        <form onSubmit={handleFormSubmit} className="space-y-4">
-          {/* Name */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label
-                htmlFor="firstName"
-                className="text-sm font-medium mb-1.5 block"
-              >
-                Prénom *
-              </label>
-              <Input
-                id="firstName"
-                value={formData.firstName}
-                onChange={(e) => update("firstName", e.target.value)}
-                placeholder="Votre prénom"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="lastName"
-                className="text-sm font-medium mb-1.5 block"
-              >
-                Nom *
-              </label>
-              <Input
-                id="lastName"
-                value={formData.lastName}
-                onChange={(e) => update("lastName", e.target.value)}
-                placeholder="Votre nom"
-                required
-              />
-            </div>
-          </div>
-
-          {/* Email & Phone */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label
-                htmlFor="email"
-                className="text-sm font-medium mb-1.5 block"
-              >
-                Email *
-              </label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => update("email", e.target.value)}
-                placeholder="votre@email.com"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="phone"
-                className="text-sm font-medium mb-1.5 block"
-              >
-                Téléphone
-              </label>
-              <Input
-                id="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => update("phone", e.target.value)}
-                placeholder="06 XX XX XX XX"
-              />
-            </div>
-          </div>
-
-          {/* Address */}
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Name */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label
-              htmlFor="address"
+              htmlFor="firstName"
               className="text-sm font-medium mb-1.5 block"
             >
-              Adresse de livraison *
+              Prénom *
             </label>
             <Input
-              id="address"
-              value={formData.address}
-              onChange={(e) => update("address", e.target.value)}
-              placeholder="Numéro et nom de rue"
+              id="firstName"
+              value={formData.firstName}
+              onChange={(e) => update("firstName", e.target.value)}
+              placeholder="Votre prénom"
               required
             />
           </div>
-
-          {/* City & Postal code */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label
-                htmlFor="postalCode"
-                className="text-sm font-medium mb-1.5 block"
-              >
-                Code postal *
-              </label>
-              <Input
-                id="postalCode"
-                value={formData.postalCode}
-                onChange={(e) => update("postalCode", e.target.value)}
-                placeholder="67000"
-                required
-                maxLength={5}
-                pattern="\d{5}"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="city"
-                className="text-sm font-medium mb-1.5 block"
-              >
-                Ville *
-              </label>
-              <Input
-                id="city"
-                value={formData.city}
-                onChange={(e) => update("city", e.target.value)}
-                placeholder="Strasbourg"
-                required
-              />
-            </div>
+          <div>
+            <label
+              htmlFor="lastName"
+              className="text-sm font-medium mb-1.5 block"
+            >
+              Nom *
+            </label>
+            <Input
+              id="lastName"
+              value={formData.lastName}
+              onChange={(e) => update("lastName", e.target.value)}
+              placeholder="Votre nom"
+              required
+            />
           </div>
+        </div>
 
-          {/* Quantity */}
-          <div className="flex items-center justify-between pt-2">
-            <span className="text-sm font-medium">Quantité</span>
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-border hover:bg-accent transition-colors"
-                disabled={quantity <= 1}
-              >
-                <Minus className="h-3 w-3" />
-              </button>
-              <span className="w-8 text-center font-medium">{quantity}</span>
-              <button
-                type="button"
-                onClick={() => setQuantity((q) => Math.min(10, q + 1))}
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-border hover:bg-accent transition-colors"
-                disabled={quantity >= 10}
-              >
-                <Plus className="h-3 w-3" />
-              </button>
-            </div>
+        {/* Email & Phone */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label htmlFor="email" className="text-sm font-medium mb-1.5 block">
+              Email *
+            </label>
+            <Input
+              id="email"
+              type="email"
+              value={formData.email}
+              onChange={(e) => update("email", e.target.value)}
+              placeholder="votre@email.com"
+              required
+            />
           </div>
-
-          {/* Price breakdown */}
-          <div className="rounded-lg bg-accent/50 p-4 space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">
-                {quantity} x Livre
-              </span>
-              <span>{(BOOK_PRICE * quantity).toFixed(2)} €</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Livraison</span>
-              <span>{SHIPPING_PRICE.toFixed(2)} €</span>
-            </div>
-            <div className="flex justify-between border-t border-border pt-2 font-semibold text-base">
-              <span>Total</span>
-              <span>{total.toFixed(2)} €</span>
-            </div>
+          <div>
+            <label htmlFor="phone" className="text-sm font-medium mb-1.5 block">
+              Téléphone
+            </label>
+            <Input
+              id="phone"
+              type="tel"
+              value={formData.phone}
+              onChange={(e) => update("phone", e.target.value)}
+              placeholder="06 XX XX XX XX"
+            />
           </div>
+        </div>
 
-          {/* Submit */}
-          <Button type="submit" className="w-full h-12 text-base" size="lg">
-            <ShoppingBag className="mr-2 h-4 w-4" />
-            Procéder au paiement — {total.toFixed(2)} €
-          </Button>
-
-          {/* Trust signals */}
-          <div className="flex items-center justify-center gap-1 text-xs text-muted-foreground">
-            <Lock className="h-3 w-3" />
-            <span>Paiement sécurisé via PayPal</span>
-            <span className="mx-1">·</span>
-            <span>Livraison en France</span>
-          </div>
-        </form>
-      )}
-
-      {/* ─── Étape 2 : Paiement ─── */}
-      {step === "payment" && (
-        <div className="space-y-4">
-          {/* Bouton retour */}
-          <button
-            type="button"
-            onClick={() => {
-              setStep("form");
-              setError("");
-            }}
-            className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <ArrowLeft className="h-3 w-3" />
-            Modifier mes informations
-          </button>
-
-          {/* Récap commande */}
-          <div className="rounded-lg bg-accent/50 p-4 space-y-2 text-sm">
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">
-                {quantity} x Livre
-              </span>
-              <span>{(BOOK_PRICE * quantity).toFixed(2)} €</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-muted-foreground">Livraison</span>
-              <span>{SHIPPING_PRICE.toFixed(2)} €</span>
-            </div>
-            <div className="flex justify-between border-t border-border pt-2 font-semibold text-base">
-              <span>Total</span>
-              <span>{total.toFixed(2)} €</span>
-            </div>
-            <p className="text-xs text-muted-foreground pt-1">
-              Livraison à : {formData.firstName} {formData.lastName},{" "}
-              {formData.address}, {formData.postalCode} {formData.city}
-            </p>
-          </div>
-
-          {/* Erreur */}
-          {error && (
-            <div className="flex items-center gap-2 rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-700">
-              <AlertCircle className="h-4 w-4 shrink-0" />
-              {error}
-            </div>
-          )}
-
-          {/* Boutons PayPal + Carte bancaire */}
-          <PayPalCheckout
-            formData={formData}
-            quantity={quantity}
-            onSuccess={handlePaymentSuccess}
-            onError={handlePaymentError}
+        {/* Address */}
+        <div>
+          <label htmlFor="address" className="text-sm font-medium mb-1.5 block">
+            Adresse de livraison *
+          </label>
+          <Input
+            id="address"
+            value={formData.address}
+            onChange={(e) => update("address", e.target.value)}
+            placeholder="Numéro et nom de rue"
+            required
           />
         </div>
-      )}
+
+        {/* City & Postal code */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label
+              htmlFor="postalCode"
+              className="text-sm font-medium mb-1.5 block"
+            >
+              Code postal *
+            </label>
+            <Input
+              id="postalCode"
+              value={formData.postalCode}
+              onChange={(e) => update("postalCode", e.target.value)}
+              placeholder="67000"
+              required
+              maxLength={5}
+              pattern="\d{5}"
+            />
+          </div>
+          <div>
+            <label htmlFor="city" className="text-sm font-medium mb-1.5 block">
+              Ville *
+            </label>
+            <Input
+              id="city"
+              value={formData.city}
+              onChange={(e) => update("city", e.target.value)}
+              placeholder="Strasbourg"
+              required
+            />
+          </div>
+        </div>
+
+        {/* Quantity */}
+        <div className="flex items-center justify-between pt-2">
+          <span className="text-sm font-medium">Quantité</span>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-border hover:bg-accent transition-colors"
+              disabled={quantity <= 1}
+              aria-label="Diminuer la quantité"
+            >
+              <Minus className="h-3 w-3" />
+            </button>
+            <span className="w-8 text-center font-medium">{quantity}</span>
+            <button
+              type="button"
+              onClick={() => setQuantity((q) => Math.min(10, q + 1))}
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-border hover:bg-accent transition-colors"
+              disabled={quantity >= 10}
+              aria-label="Augmenter la quantité"
+            >
+              <Plus className="h-3 w-3" />
+            </button>
+          </div>
+        </div>
+
+        {/* Price breakdown */}
+        <div className="rounded-lg bg-accent/50 p-4 space-y-2 text-sm">
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">{quantity} x Livre</span>
+            <span>{(BOOK_PRICE * quantity).toFixed(2)} €</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Livraison</span>
+            <span>{SHIPPING_PRICE.toFixed(2)} €</span>
+          </div>
+          <div className="flex justify-between border-t border-border pt-2 font-semibold text-base">
+            <span>Total</span>
+            <span>{total.toFixed(2)} €</span>
+          </div>
+        </div>
+
+        {error && (
+          <div className="flex items-center gap-2 rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-700">
+            <AlertCircle className="h-4 w-4 shrink-0" />
+            {error}
+          </div>
+        )}
+
+        <Button
+          type="submit"
+          className="w-full h-12 text-base"
+          size="lg"
+          disabled={loading}
+        >
+          {loading ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <ShoppingBag className="mr-2 h-4 w-4" />
+          )}
+          {loading
+            ? "Redirection vers le paiement…"
+            : `Procéder au paiement — ${total.toFixed(2)} €`}
+        </Button>
+
+        <div className="flex flex-wrap items-center justify-center gap-1 text-xs text-muted-foreground">
+          <Lock className="h-3 w-3" />
+          <span>Paiement sécurisé via Stripe (CB, Apple Pay, Google Pay)</span>
+          <span className="mx-1">·</span>
+          <span>Livraison en France</span>
+        </div>
+      </form>
     </div>
   );
 }

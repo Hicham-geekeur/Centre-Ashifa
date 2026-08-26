@@ -36,7 +36,7 @@ describe("handleCheckoutCompleted", () => {
   });
 
   it("livre : idempotent si déjà payé", async () => {
-    const d = deps({ getOrder: vi.fn(() => ({ ...order, status: "paid" })) });
+    const d = deps({ getOrder: vi.fn(() => ({ ...order, status: "paid" as const })) });
     const r = await handleCheckoutCompleted(
       { id: "cs_1", metadata: { kind: "book", checkoutReference: "ASHIFA-1" }, customer: null, subscription: null }, d);
     expect(r).toBe("already-paid");
@@ -61,7 +61,7 @@ describe("handleCheckoutCompleted", () => {
   });
 
   it("don : idempotent si déjà payé", async () => {
-    const d = deps({ getSupportEntry: vi.fn(() => ({ ...support, status: "paid" })) });
+    const d = deps({ getSupportEntry: vi.fn(() => ({ ...support, status: "paid" as const })) });
     const r = await handleCheckoutCompleted(
       { id: "cs_2", metadata: { kind: "donation", supportId: "SUP-1" }, customer: "cus_1", subscription: null }, d);
     expect(r).toBe("already-paid");
