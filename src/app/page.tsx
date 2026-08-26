@@ -26,5 +26,8 @@ export default async function Home() {
   );
 }
 
-/** Les statistiques de dons sont rafraîchies toutes les heures. */
-export const revalidate = 3600;
+/**
+ * Rendu à la demande : les statistiques de dons viennent de Stripe (cache 1 h)
+ * et ne doivent pas être figées au build, où la clé Stripe est absente.
+ */
+export const dynamic = "force-dynamic";
