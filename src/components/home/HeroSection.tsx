@@ -14,6 +14,7 @@ import {
   ChevronDown,
   BookOpen,
   Star,
+  Heart,
 } from "lucide-react";
 
 /* ─── Dot Grid Pattern ─── */
@@ -469,6 +470,22 @@ export function HeroSection() {
                 <Link href="/livre">
                   <BookOpen className="mr-2 h-4 w-4" />
                   Acheter le livre
+                </Link>
+              </Button>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="text-base px-8 h-13 border-primary/40 bg-primary/10 text-primary backdrop-blur-sm hover:bg-primary/20 hover:text-primary"
+              >
+                <Link href="/soutenir">
+                  <Heart className="mr-2 h-4 w-4" />
+                  Faire un don
                 </Link>
               </Button>
             </motion.div>

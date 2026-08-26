@@ -62,7 +62,7 @@ export function buildSupportSessionParams(
   const recurring = input.interval === "month";
   const name =
     input.kind === "membership"
-      ? "Cotisation mensuelle — membre bienfaiteur"
+      ? "Soutien mensuel à l'association Ashifa"
       : recurring
         ? "Don mensuel à l'association Ashifa"
         : "Don à l'association Ashifa";

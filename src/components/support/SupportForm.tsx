@@ -11,7 +11,7 @@ import {
   MEMBERSHIP_TIERS,
 } from "@/lib/validations";
 
-type Tab = "don" | "adhesion";
+type Tab = "don" | "mensuel";
 type Interval = "once" | "month";
 
 const IDENTITY = { firstName: "", lastName: "", email: "" };
@@ -100,11 +100,11 @@ export function SupportForm({ initialTab = "don" }: { initialTab?: Tab }) {
         <button
           type="button"
           role="tab"
-          aria-selected={tab === "adhesion"}
-          className={tabClass(tab === "adhesion")}
-          onClick={() => setTab("adhesion")}
+          aria-selected={tab === "mensuel"}
+          className={tabClass(tab === "mensuel")}
+          onClick={() => setTab("mensuel")}
         >
-          <Users className="h-4 w-4" /> Adhérer
+          <Users className="h-4 w-4" /> Soutien mensuel
         </button>
       </div>
 
@@ -165,7 +165,7 @@ export function SupportForm({ initialTab = "don" }: { initialTab?: Tab }) {
         ) : (
           <div>
             <span className="text-sm font-medium mb-2 block">
-              Cotisation mensuelle
+              Montant mensuel
             </span>
             <div className="grid grid-cols-3 gap-2">
               {MEMBERSHIP_TIERS.map((v) => (
@@ -180,8 +180,9 @@ export function SupportForm({ initialTab = "don" }: { initialTab?: Tab }) {
               ))}
             </div>
             <p className="mt-2 text-xs text-muted-foreground">
-              L&apos;adhésion en ligne vous confère le statut de membre
-              bienfaiteur de l&apos;association (statuts, art. 5).
+              Ce soutien est un don régulier : il ne confère ni la qualité de
+              membre de l&apos;association ni de droit de vote à
+              l&apos;assemblée générale.
             </p>
           </div>
         )}
@@ -250,7 +251,7 @@ export function SupportForm({ initialTab = "don" }: { initialTab?: Tab }) {
             ? "Redirection vers le paiement…"
             : tab === "don"
               ? `Donner ${Number.isFinite(amount) && amount > 0 ? amount : "…"} €${interval === "month" ? " / mois" : ""}`
-              : `Adhérer — ${tier} € / mois`}
+              : `Soutenir — ${tier} € / mois`}
         </Button>
 
         <div className="flex items-center justify-center gap-1 text-xs text-muted-foreground">

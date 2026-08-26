@@ -41,7 +41,7 @@ export default async function SoutenirMerciPage({
         </div>
         <h1 className="text-3xl font-bold tracking-tight">
           {isMembership
-            ? "Bienvenue parmi nos membres bienfaiteurs !"
+            ? "Merci pour votre soutien mensuel !"
             : "Merci pour votre don !"}
         </h1>
         <p className="mt-4 text-lg text-muted-foreground">

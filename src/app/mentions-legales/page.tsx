@@ -57,7 +57,7 @@ export default function MentionsLegalesPage() {
           </strong>{" "}
           Aucun paiement n&apos;est demandé pour prendre rendez-vous ou
           bénéficier d&apos;une séance. Seuls l&apos;achat du livre, les dons
-          et les cotisations d&apos;adhésion, effectués librement sur ce site,
+          et les dons mensuels, effectués librement sur ce site,
           donnent lieu à un paiement en ligne.
         </p>
 

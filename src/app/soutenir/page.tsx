@@ -6,13 +6,13 @@ import { SupportForm } from "@/components/support/SupportForm";
 import { PortalForm } from "@/components/support/PortalForm";
 
 export const metadata: Metadata = {
-  title: "Nous soutenir — Dons et adhésion",
+  title: "Nous soutenir — Faire un don",
   description:
-    "Soutenez l'association ASHIFA BIEN-ÊTRE ET ÉQUILIBRE par un don ponctuel, un don mensuel ou une cotisation de membre bienfaiteur. Nos séances restent gratuites grâce à vous.",
+    "Soutenez l'association ASHIFA BIEN-ÊTRE ET ÉQUILIBRE par un don ponctuel ou un soutien mensuel. Nos séances restent gratuites grâce à vous.",
   openGraph: {
     title: "Nous soutenir | Centre Ashifa",
     description:
-      "Faites un don ou adhérez à l'association pour que nos séances restent gratuites.",
+      "Faites un don ponctuel ou mensuel pour que nos séances restent gratuites.",
   },
 };
 
@@ -40,7 +40,8 @@ export default async function SoutenirPage({
   searchParams: Promise<{ onglet?: string }>;
 }) {
   const { onglet } = await searchParams;
-  const initialTab = onglet === "adhesion" ? "adhesion" : "don";
+  const initialTab =
+    onglet === "mensuel" || onglet === "adhesion" ? "mensuel" : "don";
 
   return (
     <>
@@ -58,9 +59,9 @@ export default async function SoutenirPage({
                 Aidez-nous à garder nos séances gratuites
               </h1>
               <p className="mt-4 text-lg text-muted-foreground">
-                Le Centre Ashifa est porté par une association. Chaque don et
-                chaque adhésion permet d&apos;accueillir gratuitement celles et
-                ceux qui en ont besoin.
+                Le Centre Ashifa est porté par une association. Chaque don,
+                ponctuel ou mensuel, permet d&apos;accueillir gratuitement
+                celles et ceux qui en ont besoin.
               </p>
               <ul className="mt-8 space-y-4">
                 {reasons.map(({ icon: Icon, title, text }) => (

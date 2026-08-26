@@ -50,11 +50,13 @@ describe("buildSupportSessionParams", () => {
     expect(p.mode).toBe("subscription");
     expect(p.line_items![0].price_data!.recurring).toEqual({ interval: "month" });
   });
-  it("adhésion → subscription, libellé cotisation", () => {
+  it("soutien mensuel → subscription, libellé sans connotation statutaire", () => {
     const p = buildSupportSessionParams({ ...base, kind: "membership", interval: "month", amount: 20 }, "https://x.fr");
     expect(p.mode).toBe("subscription");
     expect(p.line_items![0].price_data!.unit_amount).toBe(2000);
-    expect(p.line_items![0].price_data!.product_data!.name).toContain("Cotisation");
+    const name = p.line_items![0].price_data!.product_data!.name;
+    expect(name).toContain("Soutien mensuel");
+    expect(name).not.toMatch(/cotisation|adhésion|bienfaiteur|membre/i);
     expect(p.metadata!.kind).toBe("membership");
   });
 });

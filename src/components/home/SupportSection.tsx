@@ -11,8 +11,8 @@ const highlights = [
   },
   {
     icon: Users,
-    title: "Devenir membre bienfaiteur",
-    text: "Une cotisation de 5, 10 ou 20 € par mois, résiliable à tout moment.",
+    title: "Un soutien mensuel",
+    text: "5, 10 ou 20 € par mois, modifiable ou résiliable à tout moment.",
   },
 ];
 
@@ -33,9 +33,9 @@ export function SupportSection() {
               </h2>
               <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
                 Le Centre Ashifa est porté par une association à but non
-                lucratif. Aucune séance n&apos;est facturée : ce sont les dons
-                et les adhésions qui permettent d&apos;accueillir celles et ceux
-                qui en ont besoin.
+                lucratif. Aucune séance n&apos;est facturée : ce sont vos dons
+                qui permettent d&apos;accueillir celles et ceux qui en ont
+                besoin.
               </p>
 
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
@@ -51,8 +51,8 @@ export function SupportSection() {
                   variant="outline"
                   className="text-base px-8 h-12"
                 >
-                  <Link href="/soutenir?onglet=adhesion">
-                    Adhérer à l&apos;association
+                  <Link href="/soutenir?onglet=mensuel">
+                    Soutenir chaque mois
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>

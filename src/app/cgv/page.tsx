@@ -71,13 +71,15 @@ export default function CGVPage() {
           penalites.
         </p>
 
-        <h2>8. Dons et cotisations</h2>
+        <h2>8. Dons ponctuels et mensuels</h2>
         <p>
-          Les dons et cotisations d&apos;adhésion (membre bienfaiteur) sont
-          effectués librement, sans contrepartie matérielle. Un don ou une
-          cotisation mensuelle constitue un paiement récurrent, prélevé chaque
-          mois à la date anniversaire du premier paiement. Le donateur ou
-          l&apos;adhérent peut modifier ou arrêter ce prélèvement à tout moment
+          Les dons, ponctuels ou mensuels, sont effectués librement, sans
+          contrepartie matérielle. Ils ne confèrent ni la qualité de membre de
+          l&apos;association, ni de droit de vote à l&apos;assemblée générale :
+          l&apos;adhésion fait l&apos;objet d&apos;une demande distincte,
+          soumise à l&apos;agrément du bureau conformément aux statuts. Un don mensuel
+          constitue un paiement récurrent, prélevé chaque mois à la date
+          anniversaire du premier paiement. Le donateur peut modifier ou arrêter ce prélèvement à tout moment
           depuis la page « Nous soutenir » (portail de gestion Stripe) ;
           l&apos;arrêt prend effet pour les échéances suivantes, les mois déjà
           prélevés n&apos;étant pas remboursés. Les dons ponctuels ne sont pas
