@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { HeartHandshake, Heart, Users, ArrowRight } from "lucide-react";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
+import { DonationCounter } from "@/components/support/DonationCounter";
+import { getDonationStats } from "@/lib/donation-stats";
 
 const highlights = [
   {
@@ -16,7 +18,8 @@ const highlights = [
   },
 ];
 
-export function SupportSection() {
+export async function SupportSection() {
+  const stats = await getDonationStats();
   return (
     <section className="py-20 sm:py-24 bg-accent/30">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -65,6 +68,7 @@ export function SupportSection() {
 
             {/* Cartes */}
             <div className="grid grid-cols-1 gap-4">
+              {stats && <DonationCounter stats={stats} />}
               {highlights.map(({ icon: Icon, title, text }) => (
                 <div
                   key={title}

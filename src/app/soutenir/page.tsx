@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 import { SupportForm } from "@/components/support/SupportForm";
 import { PortalForm } from "@/components/support/PortalForm";
+import { DonationCounter } from "@/components/support/DonationCounter";
+import { getDonationStats } from "@/lib/donation-stats";
 
 export const metadata: Metadata = {
   title: "Nous soutenir — Faire un don",
@@ -40,6 +42,7 @@ export default async function SoutenirPage({
   searchParams: Promise<{ onglet?: string }>;
 }) {
   const { onglet } = await searchParams;
+  const stats = await getDonationStats();
   const initialTab =
     onglet === "mensuel" || onglet === "adhesion" ? "mensuel" : "don";
 
@@ -77,6 +80,11 @@ export default async function SoutenirPage({
             </AnimatedSection>
             <AnimatedSection delay={0.2}>
               <SupportForm initialTab={initialTab} />
+              {stats && (
+                <div className="mt-6">
+                  <DonationCounter stats={stats} />
+                </div>
+              )}
             </AnimatedSection>
           </div>
         </div>
@@ -90,3 +98,6 @@ export default async function SoutenirPage({
     </>
   );
 }
+
+/** Les statistiques de dons sont rafraîchies toutes les heures. */
+export const revalidate = 3600;

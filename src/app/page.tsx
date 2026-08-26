@@ -23,3 +23,6 @@ export default function Home() {
     </>
   );
 }
+
+/** Les statistiques de dons sont rafraîchies toutes les heures. */
+export const revalidate = 3600;
