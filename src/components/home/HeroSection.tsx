@@ -3,6 +3,8 @@
 import { useRef, useCallback } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
 import Link from "next/link";
+import { DonationPill } from "@/components/support/DonationPill";
+import type { DonationStats } from "@/lib/donation-stats";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -269,7 +271,7 @@ function TrustBadge({
 }
 
 /* ─── Main Hero ─── */
-export function HeroSection() {
+export function HeroSection({ stats }: { stats?: DonationStats | null }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
@@ -490,6 +492,13 @@ export function HeroSection() {
               </Button>
             </motion.div>
           </motion.div>
+
+          {/* Compteur de dons compact */}
+          {stats && (
+            <div className="mt-6">
+              <DonationPill stats={stats} delay={1.9} />
+            </div>
+          )}
 
           {/* Trust badges - spring animation */}
           <motion.div

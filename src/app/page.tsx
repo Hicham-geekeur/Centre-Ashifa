@@ -7,11 +7,13 @@ import { TestimonialsSection } from "@/components/home/TestimonialsSection";
 import { StatsSection } from "@/components/home/StatsSection";
 import { SupportSection } from "@/components/home/SupportSection";
 import { AppointmentCTA } from "@/components/home/AppointmentCTA";
+import { getDonationStats } from "@/lib/donation-stats";
 
-export default function Home() {
+export default async function Home() {
+  const stats = await getDonationStats();
   return (
     <>
-      <HeroSection />
+      <HeroSection stats={stats} />
       <SupportSection />
       <TrustSignals />
       <ServicesOverview />
