@@ -27,7 +27,7 @@ export default function PolitiqueConfidentialitePage() {
           <li>
             Adresse postale (en cas de commande de livre)
           </li>
-          <li>Informations de paiement (traitées exclusivement par PayPal)</li>
+          <li>Informations de paiement (traitées exclusivement par Stripe)</li>
         </ul>
 
         <h2>2. Utilisation des donnees</h2>
@@ -35,7 +35,7 @@ export default function PolitiqueConfidentialitePage() {
         <ul>
           <li>Repondre a vos demandes de contact</li>
           <li>Gerer vos rendez-vous</li>
-          <li>Traiter vos commandes de livre</li>
+          <li>Traiter vos commandes de livre, vos dons et vos cotisations</li>
           <li>Vous envoyer des informations relatives a nos services</li>
         </ul>
 
@@ -54,16 +54,16 @@ export default function PolitiqueConfidentialitePage() {
 
         <h2>4. Paiement en ligne</h2>
         <p>
-          Les paiements en ligne sont gérés exclusivement par PayPal
-          (Europe) S.à r.l. et Cie, S.C.A. Nous ne stockons aucune
-          information bancaire sur nos serveurs. Pour plus
+          Les paiements en ligne (livre, dons, cotisations) sont gérés
+          exclusivement par Stripe Payments Europe, Ltd. Nous ne stockons
+          aucune information bancaire sur nos serveurs. Pour plus
           d&apos;informations, consultez la{" "}
           <a
-            href="https://www.paypal.com/fr/legalhub/privacy-full"
+            href="https://stripe.com/fr/privacy"
             target="_blank"
             rel="noopener noreferrer"
           >
-            politique de confidentialité de PayPal
+            politique de confidentialité de Stripe
           </a>
           .
         </p>

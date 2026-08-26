@@ -50,9 +50,9 @@ const faqCategories = [
           "La Roqya est une pratique islamique qui utilise la récitation du Saint Coran et des invocations prophétiques pour accompagner les personnes touchées par les maux d'origine occulte (sihr, mauvais oeil, mass, waswas, hasad).",
       },
       {
-        question: "Combien coute une séance de Roqya ?",
+        question: "Combien coûte une séance de Roqya ?",
         answer:
-          "Les tarifs varient selon le type de séance et votre situation. Contactez-nous pour plus d'informations.",
+          "Toutes nos séances sont entièrement gratuites, au cabinet comme à distance. Le Centre Ashifa est porté par une association : si vous souhaitez nous aider, vous pouvez faire un don ou adhérer sur la page « Nous soutenir ».",
       },
       {
         question: "Combien de séances sont nécessaires ?",
