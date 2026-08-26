@@ -45,14 +45,22 @@ export function Header() {
         )}
       >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-28 items-center justify-between">
+        <div
+          className={cn(
+            "flex items-center justify-between transition-all duration-300",
+            scrolled ? "h-16" : "h-20"
+          )}
+        >
           {/* Logo */}
           <Link href="/" className="flex items-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/images/logo-centre-ashifa.svg"
               alt="Centre Ashifa - Roqya Thérapie"
-              className="h-24 w-auto"
+              className={cn(
+                "w-auto transition-all duration-300",
+                scrolled ? "h-12" : "h-16"
+              )}
             />
           </Link>
 
@@ -92,15 +100,6 @@ export function Header() {
                     )}
                   </AnimatePresence>
                 </div>
-              ) : item.href === "/soutenir" ? (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="ml-1 flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/20"
-                >
-                  <Heart className="h-3.5 w-3.5 animate-heartbeat fill-current" />
-                  {item.label}
-                </Link>
               ) : (
                 <Link
                   key={item.label}
@@ -114,14 +113,7 @@ export function Header() {
           </nav>
 
           {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-3">
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="flex items-center gap-2 text-sm font-medium text-foreground/70 hover:text-primary transition-colors"
-            >
-              <Mail className="h-4 w-4" />
-              {siteConfig.email}
-            </a>
+          <div className="hidden lg:flex items-center">
             <Button asChild>
               <Link href="/rendez-vous">Prendre rendez-vous</Link>
             </Button>
@@ -166,16 +158,6 @@ export function Header() {
                       </Link>
                     ))}
                   </div>
-                ) : item.href === "/soutenir" ? (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-4 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/20"
-                  >
-                    <Heart className="h-4 w-4 animate-heartbeat fill-current" />
-                    {item.label}
-                  </Link>
                 ) : (
                   <Link
                     key={item.label}
@@ -198,6 +180,12 @@ export function Header() {
                 <Button asChild className="w-full">
                   <Link href="/rendez-vous" onClick={() => setIsOpen(false)}>
                     Prendre rendez-vous
+                  </Link>
+                </Button>
+                <Button asChild variant="outline" className="w-full border-primary/40 bg-primary/10 text-primary hover:bg-primary/20 hover:text-primary">
+                  <Link href="/soutenir" onClick={() => setIsOpen(false)}>
+                    <Heart className="mr-2 h-4 w-4 animate-heartbeat fill-current" />
+                    Nous soutenir
                   </Link>
                 </Button>
               </div>

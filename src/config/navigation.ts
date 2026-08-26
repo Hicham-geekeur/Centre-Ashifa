@@ -9,9 +9,15 @@ export const mainNavItems = [
     ],
   },
   { label: "Le Livre", href: "/livre" },
-  { label: "Nous soutenir", href: "/soutenir" },
-  { label: "Videos", href: "/videos" },
-  { label: "À propos", href: "/a-propos" },
+  {
+    label: "Découvrir",
+    href: "#",
+    children: [
+      { label: "Vidéos", href: "/videos" },
+      { label: "Questions fréquentes", href: "/faq" },
+      { label: "À propos", href: "/a-propos" },
+    ],
+  },
   { label: "Contact", href: "/contact" },
 ] as const;
 
@@ -23,13 +29,13 @@ export const footerNavItems = {
   informations: [
     { label: "À propos", href: "/a-propos" },
     { label: "FAQ", href: "/faq" },
-    { label: "Videos", href: "/videos" },
+    { label: "Vidéos", href: "/videos" },
     { label: "Le Livre", href: "/livre" },
     { label: "Nous soutenir", href: "/soutenir" },
   ],
   legal: [
-    { label: "Mentions legales", href: "/mentions-legales" },
-    { label: "Politique de confidentialite", href: "/politique-confidentialite" },
+    { label: "Mentions légales", href: "/mentions-legales" },
+    { label: "Politique de confidentialité", href: "/politique-confidentialite" },
     { label: "CGV", href: "/cgv" },
   ],
 } as const;
