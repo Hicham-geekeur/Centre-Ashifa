@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Mail, ArrowRight } from "lucide-react";
+import { Mail, ArrowRight, Heart } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { AnimatedSection } from "@/components/shared/AnimatedSection";
 
@@ -46,6 +46,17 @@ export function AppointmentCTA() {
                   </a>
                 </Button>
               </div>
+
+              <p className="mt-8 text-sm text-white/80">
+                Vous souhaitez nous aider à rester gratuits ?{" "}
+                <Link
+                  href="/soutenir"
+                  className="inline-flex items-center gap-1 font-semibold text-white underline underline-offset-4 hover:text-white/90"
+                >
+                  <Heart className="h-3.5 w-3.5" />
+                  Faire un don ou adhérer
+                </Link>
+              </p>
             </div>
           </div>
         </AnimatedSection>
