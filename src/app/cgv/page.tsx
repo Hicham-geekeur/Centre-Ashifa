@@ -17,9 +17,13 @@ export default function CGVPage() {
 
         <h2>1. Objet</h2>
         <p>
-          Les presentes conditions generales de vente (CGV) regissent les ventes
-          de produits effectuees sur le site centre-ashifa.fr, edite par le
-          Centre Ashifa.
+          Les présentes conditions générales de vente (CGV) régissent les
+          ventes de produits, les dons et les cotisations effectués sur le site
+          centre-ashifa.fr, édité par l&apos;association ASHIFA BIEN-ÊTRE ET
+          ÉQUILIBRE (Centre Ashifa), 8 avenue de l&apos;Énergie, 67800
+          Bischheim. Les séances et consultations proposées par
+          l&apos;association sont gratuites et ne relèvent pas des présentes
+          CGV.
         </p>
 
         <h2>2. Produits</h2>
@@ -47,8 +51,9 @@ export default function CGVPage() {
         <h2>5. Paiement</h2>
         <p>
           Le paiement s&apos;effectue en ligne via la plateforme sécurisée
-          PayPal. Le débit est effectué au moment de la validation de la
-          commande.
+          Stripe (carte bancaire, Apple Pay, Google Pay). Aucune donnée
+          bancaire n&apos;est stockée par l&apos;association. Le débit est
+          effectué au moment de la validation du paiement.
         </p>
 
         <h2>6. Livraison</h2>
@@ -66,13 +71,26 @@ export default function CGVPage() {
           penalites.
         </p>
 
-        <h2>8. Reclamations</h2>
+        <h2>8. Dons et cotisations</h2>
+        <p>
+          Les dons et cotisations d&apos;adhésion (membre bienfaiteur) sont
+          effectués librement, sans contrepartie matérielle. Un don ou une
+          cotisation mensuelle constitue un paiement récurrent, prélevé chaque
+          mois à la date anniversaire du premier paiement. Le donateur ou
+          l&apos;adhérent peut modifier ou arrêter ce prélèvement à tout moment
+          depuis la page « Nous soutenir » (portail de gestion Stripe) ;
+          l&apos;arrêt prend effet pour les échéances suivantes, les mois déjà
+          prélevés n&apos;étant pas remboursés. Les dons ponctuels ne sont pas
+          remboursables. L&apos;association ne délivre pas de reçu fiscal.
+        </p>
+
+        <h2>9. Réclamations</h2>
         <p>
           Pour toute reclamation, vous pouvez nous contacter au 07 68 84 84 83
           ou via notre formulaire de contact.
         </p>
 
-        <h2>9. Droit applicable</h2>
+        <h2>10. Droit applicable</h2>
         <p>
           Les presentes CGV sont soumises au droit francais. En cas de litige,
           les tribunaux de Strasbourg seront seuls competents.

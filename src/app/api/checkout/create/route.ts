@@ -5,11 +5,12 @@ import {
   SHIPPING_PRICE,
   calculateTotal,
 } from "@/lib/validations";
-import { createOrder } from "@/lib/paypal";
+import { getStripe, buildBookSessionParams } from "@/lib/stripe";
 import {
   saveOrder,
   generateCheckoutReference,
-  updateOrderStatus,
+  attachStripeSession,
+  type OrderData,
 } from "@/lib/orders";
 
 export async function POST(req: NextRequest) {
@@ -34,14 +35,10 @@ export async function POST(req: NextRequest) {
       postalCode,
       quantity,
     } = parsed.data;
-
-    const totalAmount = calculateTotal(quantity);
-    const checkoutReference = generateCheckoutReference();
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
-    // Sauvegarder la commande en "pending"
-    saveOrder({
-      checkoutReference,
+    const order: OrderData = {
+      checkoutReference: generateCheckoutReference(),
       firstName,
       lastName,
       email,
@@ -52,26 +49,19 @@ export async function POST(req: NextRequest) {
       quantity,
       bookPrice: BOOK_PRICE,
       shippingPrice: SHIPPING_PRICE,
-      totalAmount,
+      totalAmount: calculateTotal(quantity),
       createdAt: new Date().toISOString(),
       status: "pending",
-    });
+    };
+    saveOrder(order);
 
-    // Créer la commande PayPal
-    const paypalOrder = await createOrder({
-      reference_id: checkoutReference,
-      description: `Livre "La Roqya à la lumière du Tawhid" x${quantity}`,
-      amount: totalAmount,
-      currency: "EUR",
-      return_url: `${baseUrl}/api/checkout/capture?ref=${checkoutReference}`,
-      cancel_url: `${baseUrl}/livre`,
-    });
+    const session = await getStripe().checkout.sessions.create(
+      buildBookSessionParams(order, baseUrl)
+    );
+    attachStripeSession(order.checkoutReference, session.id);
 
-    // Stocker l'ID PayPal dans la commande
-    updateOrderStatus(checkoutReference, "pending", paypalOrder.id);
-
-    // Retourner l'ID PayPal pour le SDK JS côté client
-    return NextResponse.json({ orderId: paypalOrder.id });
+    if (!session.url) throw new Error("Stripe session without url");
+    return NextResponse.json({ url: session.url });
   } catch (error) {
     console.error("Checkout creation error:", error);
     return NextResponse.json(

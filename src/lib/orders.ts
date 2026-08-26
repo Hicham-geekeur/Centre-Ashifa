@@ -17,6 +17,7 @@ export interface OrderData {
   createdAt: string;
   status: "pending" | "paid" | "failed" | "expired";
   paypalOrderId?: string;
+  stripeSessionId?: string;
 }
 
 const DATA_DIR = join(process.cwd(), "data");
@@ -62,6 +63,17 @@ export function updateOrderStatus(
     if (paypalOrderId) {
       orders[checkoutReference].paypalOrderId = paypalOrderId;
     }
+    writeOrders(orders);
+  }
+}
+
+export function attachStripeSession(
+  checkoutReference: string,
+  sessionId: string
+): void {
+  const orders = readOrders();
+  if (orders[checkoutReference]) {
+    orders[checkoutReference].stripeSessionId = sessionId;
     writeOrders(orders);
   }
 }

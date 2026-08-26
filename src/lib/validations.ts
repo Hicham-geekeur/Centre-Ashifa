@@ -30,3 +30,37 @@ export const SHIPPING_PRICE = 5;
 export function calculateTotal(quantity: number): number {
   return BOOK_PRICE * quantity + SHIPPING_PRICE;
 }
+
+// ─── Nous soutenir ───────────────────────────────────────────
+
+export const DONATION_PRESETS = [10, 20, 50] as const;
+export const DONATION_MIN = 1;
+export const DONATION_MAX = 10000;
+export const MEMBERSHIP_TIERS = [5, 10, 20] as const;
+
+const supportBase = {
+  firstName: z.string().min(2, "Le prénom doit contenir au moins 2 caractères"),
+  lastName: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
+  email: z.string().email("Adresse email invalide"),
+};
+
+export const supportFormSchema = z.discriminatedUnion("kind", [
+  z.object({
+    ...supportBase,
+    kind: z.literal("donation"),
+    interval: z.enum(["once", "month"]),
+    amount: z
+      .number()
+      .int("Montant entier requis")
+      .min(DONATION_MIN, `Montant minimum : ${DONATION_MIN} €`)
+      .max(DONATION_MAX, `Montant maximum : ${DONATION_MAX} €`),
+  }),
+  z.object({
+    ...supportBase,
+    kind: z.literal("membership"),
+    interval: z.literal("month"),
+    amount: z.union([z.literal(5), z.literal(10), z.literal(20)]),
+  }),
+]);
+
+export type SupportFormData = z.infer<typeof supportFormSchema>;

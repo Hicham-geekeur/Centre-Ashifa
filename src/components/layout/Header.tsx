@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Menu, X, Mail, ChevronDown } from "lucide-react";
+import { Menu, X, Mail, ChevronDown, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
 import { mainNavItems } from "@/config/navigation";
@@ -83,6 +83,15 @@ export function Header() {
                     )}
                   </AnimatePresence>
                 </div>
+              ) : item.href === "/soutenir" ? (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="ml-1 flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/20"
+                >
+                  <Heart className="h-3.5 w-3.5" />
+                  {item.label}
+                </Link>
               ) : (
                 <Link
                   key={item.label}
@@ -148,6 +157,16 @@ export function Header() {
                       </Link>
                     ))}
                   </div>
+                ) : item.href === "/soutenir" ? (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-4 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/20"
+                  >
+                    <Heart className="h-4 w-4" />
+                    {item.label}
+                  </Link>
                 ) : (
                   <Link
                     key={item.label}
