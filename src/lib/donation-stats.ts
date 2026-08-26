@@ -1,6 +1,9 @@
 import { unstable_cache } from "next/cache";
 import { getStripe } from "./stripe";
 
+/** Date de lancement des dons en ligne (migration Stripe). Rien avant n'est compté. */
+export const LAUNCH_DATE = new Date("2026-08-26T00:00:00+02:00");
+
 export interface DonationStats {
   /** Total collecté en euros (dons ponctuels + tous les prélèvements mensuels) */
   totalEuros: number;
@@ -26,10 +29,11 @@ export interface RawDonationData {
     amount_paid: number;
     customer_email?: string | null;
   }>;
+  refunds: Array<{ status: string | null; amount: number }>;
   activeSubscriptions: number;
 }
 
-/** Agrégation pure : dons ponctuels via les sessions, mensuels via les factures. */
+/** Agrégation pure : dons ponctuels via les sessions, mensuels via les factures, remboursements déduits. */
 export function aggregateDonationStats(
   data: RawDonationData,
   now: Date = new Date()
@@ -52,8 +56,12 @@ export function aggregateDonationStats(
     addEmail(inv.customer_email);
   }
 
+  for (const r of data.refunds) {
+    if (r.status === "succeeded") cents -= r.amount;
+  }
+
   return {
-    totalEuros: Math.round(cents) / 100,
+    totalEuros: Math.max(0, Math.round(cents)) / 100,
     donors: emails.size,
     monthlySupporters: data.activeSubscriptions,
     updatedAt: now.toISOString(),
@@ -62,19 +70,24 @@ export function aggregateDonationStats(
 
 async function fetchFromStripe(): Promise<DonationStats> {
   const stripe = getStripe();
+  const since = { gte: Math.floor(LAUNCH_DATE.getTime() / 1000) };
   const sessions: RawDonationData["sessions"] = [];
-  for await (const s of stripe.checkout.sessions.list({ limit: 100 })) {
+  for await (const s of stripe.checkout.sessions.list({ limit: 100, created: since })) {
     sessions.push(s);
   }
   const invoices: RawDonationData["invoices"] = [];
-  for await (const inv of stripe.invoices.list({ status: "paid", limit: 100 })) {
+  for await (const inv of stripe.invoices.list({ status: "paid", limit: 100, created: since })) {
     invoices.push(inv);
+  }
+  const refunds: RawDonationData["refunds"] = [];
+  for await (const r of stripe.refunds.list({ limit: 100, created: since })) {
+    refunds.push(r);
   }
   let activeSubscriptions = 0;
   for await (const sub of stripe.subscriptions.list({ status: "active", limit: 100 })) {
     if (sub.id) activeSubscriptions++;
   }
-  return aggregateDonationStats({ sessions, invoices, activeSubscriptions });
+  return aggregateDonationStats({ sessions, invoices, refunds, activeSubscriptions });
 }
 
 const cached = unstable_cache(fetchFromStripe, ["donation-stats"], {

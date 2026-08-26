@@ -15,15 +15,21 @@ describe("aggregateDonationStats", () => {
         { status: "paid", amount_paid: 500, customer_email: "d@x.fr" },
         { status: "paid", amount_paid: 200, customer_email: "a@x.fr" },
       ],
+      refunds: [{ status: "succeeded", amount: 300 }, { status: "failed", amount: 900 }],
       activeSubscriptions: 3,
     });
-    expect(stats.totalEuros).toBe(22); // 10 + 5 + 5 + 2
+    expect(stats.totalEuros).toBe(19); // 10 + 5 + 5 + 2 − 3 remboursés
     expect(stats.donors).toBe(2); // a et d
     expect(stats.monthlySupporters).toBe(3);
   });
 
+  it("ne descend jamais sous zéro", () => {
+    const s = aggregateDonationStats({ sessions: [], invoices: [], refunds: [{ status: "succeeded", amount: 500 }], activeSubscriptions: 0 });
+    expect(s.totalEuros).toBe(0);
+  });
+
   it("retourne des zéros sans données", () => {
-    const s = aggregateDonationStats({ sessions: [], invoices: [], activeSubscriptions: 0 });
+    const s = aggregateDonationStats({ sessions: [], invoices: [], refunds: [], activeSubscriptions: 0 });
     expect(s).toMatchObject({ totalEuros: 0, donors: 0, monthlySupporters: 0 });
   });
 });
