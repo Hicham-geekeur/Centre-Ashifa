@@ -481,10 +481,10 @@ export function HeroSection() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="text-base px-8 h-13 border-primary/40 bg-primary/10 text-primary backdrop-blur-sm hover:bg-primary/20 hover:text-primary"
+                className="animate-donation-glow text-base px-8 h-13 border-primary/50 bg-primary/10 text-primary backdrop-blur-sm hover:bg-primary/20 hover:text-primary"
               >
                 <Link href="/soutenir">
-                  <Heart className="mr-2 h-4 w-4" />
+                  <Heart className="mr-2 h-4 w-4 animate-heartbeat fill-current" />
                   Faire un don
                 </Link>
               </Button>

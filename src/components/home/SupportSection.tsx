@@ -39,9 +39,13 @@ export function SupportSection() {
               </p>
 
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
-                <Button asChild size="lg" className="text-base px-8 h-12">
+                <Button
+                  asChild
+                  size="lg"
+                  className="animate-donation-glow text-base px-8 h-12"
+                >
                   <Link href="/soutenir">
-                    <Heart className="mr-2 h-4 w-4" />
+                    <Heart className="mr-2 h-4 w-4 animate-heartbeat fill-current" />
                     Faire un don
                   </Link>
                 </Button>

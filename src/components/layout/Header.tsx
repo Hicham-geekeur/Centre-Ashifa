@@ -23,8 +23,17 @@ export function Header() {
   return (
     <>
       {/* Announcement banner */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-primary text-primary-foreground text-center text-sm py-2 px-4 font-medium">
-        Toutes nos séances sont gratuites — au cabinet et à distance
+      <div className="fixed top-0 left-0 right-0 z-50 bg-primary text-primary-foreground text-sm py-2 px-4 font-medium">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center">
+          <span>Toutes nos séances sont gratuites — au cabinet et à distance</span>
+          <Link
+            href="/soutenir"
+            className="animate-donation-glow inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1 text-xs font-bold text-primary shadow-sm transition-transform hover:scale-105"
+          >
+            <Heart className="h-3.5 w-3.5 animate-heartbeat fill-current" />
+            Faire un don
+          </Link>
+        </div>
       </div>
 
       <header
@@ -89,7 +98,7 @@ export function Header() {
                   href={item.href}
                   className="ml-1 flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/20"
                 >
-                  <Heart className="h-3.5 w-3.5" />
+                  <Heart className="h-3.5 w-3.5 animate-heartbeat fill-current" />
                   {item.label}
                 </Link>
               ) : (
@@ -164,7 +173,7 @@ export function Header() {
                     onClick={() => setIsOpen(false)}
                     className="flex items-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-4 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/20"
                   >
-                    <Heart className="h-4 w-4" />
+                    <Heart className="h-4 w-4 animate-heartbeat fill-current" />
                     {item.label}
                   </Link>
                 ) : (
