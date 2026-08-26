@@ -39,7 +39,7 @@ Date : 2026-08-26
 - Entrée « Nous soutenir » dans le menu principal et le footer.
 - Deux onglets (état client, `?onglet=don|adhesion` pour lien direct) :
   - **Faire un don** : 10 / 20 / 50 € + montant libre (min 1 €, max 10 000 €), choix ponctuel / mensuel.
-  - **Adhérer** : paliers 5 / 10 / 20 €/mois.
+  - **Adhérer** : paliers 5 / 10 / 20 €/mois. L'adhésion en ligne confère le statut de **membre bienfaiteur** (statuts, art. 5 : cotisation de soutien) ; la page le précise en une ligne.
 - Champs : prénom, nom, email (le reste est collecté par Stripe).
 - POST `/api/soutenir/create` → Checkout Session :
   - don ponctuel : `mode: "payment"`
@@ -52,7 +52,7 @@ Date : 2026-08-26
 
 ## 3. Textes légaux
 
-- **Mentions légales** : éditeur = « ASHIFA BIEN-ÊTRE ET ÉQUILIBRE, association de droit local (Alsace-Moselle), SIREN 101 659 753, siège 8 avenue de l'Énergie, 67800 Bischheim, responsable de publication Larbi DJEDADOUA » ; hébergeur = Hostinger International Ltd (VPS) ; paragraphe « Nature de l'activité » : association à but non lucratif, **consultations et séances entièrement gratuites**, seuls la vente du livre, les dons et les cotisations donnent lieu à un paiement.
+- **Mentions légales** : éditeur = « ASHIFA BIEN-ÊTRE ET ÉQUILIBRE, association de droit local régie par les articles 21 à 79-III du Code civil local (Alsace-Moselle), inscrite au registre des associations du Tribunal de proximité de Schiltigheim, SIREN 101 659 753 (SIRET 101 659 753 00012), siège 8 avenue de l'Énergie, 67800 Bischheim, président et responsable de publication : Larbi DJEDADOUA » ; hébergeur = Hostinger International Ltd (VPS) ; paragraphe « Nature de l'activité » : association à but non lucratif, **consultations et séances entièrement gratuites**, seuls la vente du livre, les dons et les cotisations donnent lieu à un paiement.
 - **CGV** : PayPal → Stripe ; nouvel article « Dons et cotisations » (paiement récurrent mensuel, résiliation à tout moment via le portail, pas de remboursement des mois échus).
 - **FAQ** : réponse tarifs → « Toutes nos séances sont gratuites ».
 - **Politique de confidentialité** : PayPal → Stripe (sous-traitant paiement).
